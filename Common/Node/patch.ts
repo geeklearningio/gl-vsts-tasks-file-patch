@@ -37,14 +37,14 @@ export class SlickPatchParser {
             } else if (op == "&") { 
                 result.push({
                     op : "copy",
-                    path : (<any>match).path,
-                    from : (<any>match).from
+                    path : (<any>match).value,
+                    from : (<any>match).path
                 });
             } else if (op == ">") { 
                 result.push({
                     op : "move",
-                    path : (<any>match).path,
-                    from : (<any>match).from
+                    path : (<any>match).value,
+                    from : (<any>match).path
                 });
             } else if (op == "?") { 
                 result.push({

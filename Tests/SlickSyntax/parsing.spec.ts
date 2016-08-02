@@ -25,12 +25,12 @@ describe("Whistespace support", () => {
         expect(patches[0].path).toEqual('/test/whatever');
         expect(patches[0].value).toEqual('42');
 
-        expect(patches[0].op).toEqual('remove');
-        expect(patches[0].path).toEqual('/test/whatever/toto/t');
+        expect(patches[1].op).toEqual('remove');
+        expect(patches[1].path).toEqual('/test/whatever/toto/t');
 
-        expect(patches[0].op).toEqual('add');
-        expect(patches[0].path).toEqual('/test/answer');
-        expect(patches[0].value).toEqual('42');
+        expect(patches[2].op).toEqual('add');
+        expect(patches[2].path).toEqual('/test/answer');
+        expect(patches[2].value).toEqual('42');
     });
 });
 
