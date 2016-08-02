@@ -1,5 +1,5 @@
 {
-  "name": "gl-vsts-tasks-azure",
+  "name": "gl-vsts-tasks-file-patch",
   "version": "0.1.0",
   "description": "Additionnal Azure tasks for the Team Services build system",
   "main": "gulpfile.js",
