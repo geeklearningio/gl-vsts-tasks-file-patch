@@ -19,6 +19,7 @@
         "node_modules",
         "Tasks/JsonPatch/node_modules",
         "Common",
-        "BuildScripts/node_modules"
+        "BuildScripts/node_modules",
+        ".BuildOutput"
     ]
 }
