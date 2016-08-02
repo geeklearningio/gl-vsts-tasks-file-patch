@@ -251,3 +251,5 @@ Tests/**/*.d.ts
 Tasks/**/*.js
 Tasks/**/*.d.ts
 Tasks/*/common/*.ts
+
+.BuildOutput

@@ -1,34 +1,36 @@
-[
-    {
-        "Name": "production",
-        "VssExtensionIdSuffix": "",
-        "VssExtensionGalleryFlags": [
-            "Public"
-       ],
-        "DisplayNamesSuffix": "",
-        "TaskIds": {
-            "JsonPatch": "DEEAA603-DA23-43AB-A099-33AEFE358520",
-            "XmlPatch": "ACEE093C-D84E-456E-B6F3-1D65969291BD"
+{
+    "environments": [
+        {
+            "Name": "production",
+            "VssExtensionIdSuffix": "",
+            "VssExtensionGalleryFlags": [
+                "Public"
+            ],
+            "DisplayNamesSuffix": "",
+            "TaskIds": {
+                "JsonPatch": "DEEAA603-DA23-43AB-A099-33AEFE358520",
+                "XmlPatch": "ACEE093C-D84E-456E-B6F3-1D65969291BD"
+            }
+        },
+        {
+            "Name": "preview",
+            "VssExtensionIdSuffix": "-preview",
+            "VssExtensionGalleryFlags": [],
+            "DisplayNamesSuffix": " (Preview)",
+            "TaskIds": {
+                "JsonPatch": "1309EACE-BCEB-46A5-872A-9D9E33820D1D",
+                "XmlPatch": "FBDB24F0-CC20-4927-AF82-18421B3DA3CD"
+            }
+        },
+        {
+            "Name": "dev",
+            "VssExtensionIdSuffix": "-dev",
+            "VssExtensionGalleryFlags": [],
+            "DisplayNamesSuffix": " (Development)",
+            "TaskIds": {
+                "JsonPatch": "578A87B3-5A3F-461B-828D-E53DA43A8F3A",
+                "XmlPatch": "BD8DCFA1-1592-4DA9-8437-871752577791"
+            }
         }
-    },
-    {
-        "Name": "preview",
-        "VssExtensionIdSuffix": "-preview",
-        "VssExtensionGalleryFlags": [],        
-        "DisplayNamesSuffix": " (Preview)",
-        "TaskIds": {
-            "JsonPatch": "1309EACE-BCEB-46A5-872A-9D9E33820D1D",
-            "XmlPatch": "FBDB24F0-CC20-4927-AF82-18421B3DA3CD"
-        }
-    },
-    {
-        "Name": "dev",
-        "VssExtensionIdSuffix": "-dev",
-        "VssExtensionGalleryFlags": [],        
-        "DisplayNamesSuffix": " (Development)",
-        "TaskIds": {
-            "JsonPatch": "578A87B3-5A3F-461B-828D-E53DA43A8F3A",
-            "XmlPatch": "BD8DCFA1-1592-4DA9-8437-871752577791"
-        }
-    } 
-]
+    ]
+}
