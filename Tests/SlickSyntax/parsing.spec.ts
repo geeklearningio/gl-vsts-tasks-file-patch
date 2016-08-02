@@ -8,25 +8,25 @@ import patch = require("../../Tasks/JsonPatch/common/patch");
 var str = '+ /test/whatever/toto =>   "42"\n= /test/whatever/toto/grade => 0\n- /test/whatever/toto/t=> 0\n? /test/whatever/toto/ => "toto"\n&/test/copy/titi => /toto/target/grosminet\n> /test/copy/titi => /toto/target/grosminet';
 
 describe("Whistespace support", () => {
-    it("Whistespaces are ignored", () => {
+    it(": whitespaces can be safely added anywhere.", () => {
         var parser = new patch.SlickPatchParser();
-        var patches  = parser.parse('+    /test/whatever \t => "42" ');
+        var patches  = parser.parse('  +    /test/whatever \t => "42" ');
         expect(patches.length).toEqual(1);
         expect(patches[0].op).toEqual('add');
         expect(patches[0].path).toEqual('/test/whatever');
         expect(patches[0].value).toEqual('42');
     });
 
-    it("Must accept multiple lines", () => {
+    it(": mutiline is supported", () => {
         var parser = new patch.SlickPatchParser();
-        var patches  = parser.parse('+    /test/whatever \t => "42" \n - /test/whatever/toto/t \n +    /test/answer \t => "42"');
+        var patches  = parser.parse('+    /test/whatever \t => "42" \n - /test/whatever/toto/t \n+    /test/answer \t => "42"');
         expect(patches.length).toEqual(3);
         expect(patches[0].op).toEqual('add');
         expect(patches[0].path).toEqual('/test/whatever');
         expect(patches[0].value).toEqual('42');
 
         expect(patches[0].op).toEqual('remove');
-        expect(patches[0].path).toEqual('/test/whatever');
+        expect(patches[0].path).toEqual('/test/whatever/toto/t');
 
         expect(patches[0].op).toEqual('add');
         expect(patches[0].path).toEqual('/test/answer');

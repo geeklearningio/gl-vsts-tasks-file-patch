@@ -12,12 +12,10 @@ export interface IPatcher {
 }
 
 export class SlickPatchParser {
-    static operationRegex = XRegExp('^(?<op>\\+|-|=|&|>|\\?)\\s*(?<path>.*?)\\s*(=>\\s*(?<value>.*))?$','gm');
-
     parse(sourcePatch: string): IPatch[] {
         var result: IPatch[] = [];
 
-        XRegExp.forEach(sourcePatch, SlickPatchParser.operationRegex, (match) => {
+        XRegExp.forEach(sourcePatch, XRegExp('^\\s*(?<op>\\+|-|=|&|>|\\?)\\s*(?<path>.*?)\\s*(=>\\s*(?<value>.*))?$','gm'), (match) => {
             var op = (<any>match).op;
             if (op == "+"){
                 result.push({
