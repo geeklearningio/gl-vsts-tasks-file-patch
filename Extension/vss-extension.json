@@ -1,0 +1,84 @@
+{
+    "manifestVersion": 1,
+    "id": "gl-vsts-tasks-file-patch",
+    "name": "File patch Build and Release Tasks",
+    "version": "0.0.18",
+    "publisher": "geeklearningio",    
+    "targets": [
+        {
+            "id": "Microsoft.VisualStudio.Services"
+        }
+    ],    
+    "description": "Build and Release Management extensions that help you update files using json patch and similar syntax.",
+    "categories": [
+        "Build and release"
+    ],
+    "icons": {
+        "default": "extension-icon.png"        
+    },
+    "tags": [
+        "json",
+        "xml",
+        "patch",
+        "utility",
+        "file"
+    ],
+    "content": {
+        "details": {
+            "path": "overview.md"
+        },
+        "license": {
+            "path": "LICENSE.txt"
+        }
+    },
+    "links": {
+        "getstarted": {
+            "uri": "https://github.com/geeklearningio/gl-vsts-tasks-file-patch/wiki"
+        },
+        "support": {
+            "uri": "https://github.com/geeklearningio/gl-vsts-tasks-file-patch/issues"
+        },
+        "repository": {
+            "uri": "https://github.com/geeklearningio/gl-vsts-tasks-file-patch"
+        },
+        "issues": {
+            "uri": "https://github.com/geeklearningio/gl-vsts-tasks-file-patch/issues"
+        }
+    },
+    "branding": {
+        "color": "#008B8B",
+        "theme": "light"
+    },   
+    "files": [
+        {
+            "path": "JsonPatch"
+        },
+        {
+            "path": "XmlPatch"
+        }
+    ],
+    "contributions": [
+        {
+            "id": "json-patch-task",
+            "type": "ms.vss-distributed-task.task",
+            "description": "Applies a json patch to a file",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "JsonPatch"
+            }
+        },
+        {
+            "id": "xml-patch-task",
+            "type": "ms.vss-distributed-task.task",
+            "description": "Applies a json patch to an xml file",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "XmlPatch"
+            }
+        }
+    ]
+}

@@ -1,0 +1,8 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/e786952f1d7142112f995b5ed594fcb43b877ce4/xmldom/xmldom.d.ts",
+    "raw": "registry:dt/xmldom#0.1.22+20160319053438",
+    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/e786952f1d7142112f995b5ed594fcb43b877ce4/xmldom/xmldom.d.ts"
+  }
+}

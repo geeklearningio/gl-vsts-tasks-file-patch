@@ -1,0 +1,79 @@
+{
+    "id": "ACEE093C-D84E-456E-B6F3-1D65969291BD",
+    "name": "XmlPatch",
+    "friendlyName": "Xml Patch",
+    "description": "Apply a Json Patch to an xml file",
+    "category": "Utility",
+    "visibility": [
+        "Build",
+        "Release"
+    ],
+    "author": "Geek Learning",
+    "version": {
+        "Major": 0,
+        "Minor": 0,
+        "Patch": 45
+    },
+    "demands": [
+        "npm"
+    ],
+    "minimumAgentVersion": "1.91.0",
+    "instanceNameFormat": "Patches files $(JsonTarget)",
+    "inputs": [
+        {
+            "name": "JsonWorkingDir",
+            "type": "filePath",
+            "label": "Patch working directory",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "Patch target file. Example: $(agent.builddirectory)/target.json"
+        },
+        {
+            "name": "JsonTargetFilters",
+            "type": "multiLine",
+            "label": "Target files",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "Patch target file. Example: $(agent.builddirectory)/target.json"
+        },
+        {
+            "name": "Namespaces",
+            "type": "multiLine",
+            "label": "Xml Namespaces (As a Json map)",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "Xml namespaces as a json map.",
+            "properties": {
+                "resizable": "true",
+                "rows" : "5",
+                "maxLength" : "5000"
+            }
+        },
+        {
+            "name": "JsonPatchContent",
+            "type": "multiLine",
+            "label": "Patch Content",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "Patch content.",
+            "properties": {
+                "resizable": "true",
+                "rows" : "10",
+                "maxLength" : "5000"
+            }
+        },
+        {
+            "name": "OutputPatchFile",
+            "type": "boolean",
+            "label": "Output patched file in logs",
+            "defaultValue": "false",
+            "helpMarkDown": "Output patched file in logs"
+        }
+    ],
+    "execution": {
+        "Node": {
+            "target": "xmlPatch.js",
+            "argumentFormat": ""
+        }
+    }
+}

@@ -1,0 +1,78 @@
+{
+    "id": "DEEAA603-DA23-43AB-A099-33AEFE358520",
+    "name": "JsonPatch",
+    "friendlyName": "Json Patch",
+    "description": "Apply a Json Patch to a file",
+    "category": "Utility",
+    "visibility": [
+        "Build",
+        "Release"
+    ],
+    "author": "Geek Learning",
+    "version": {
+        "Major": 0,
+        "Minor": 0,
+        "Patch": 41
+    },
+    "demands": [
+        "npm"
+    ],
+    "minimumAgentVersion": "1.91.0",
+    "instanceNameFormat": "Patches files $(JsonTarget)",
+    "inputs": [
+         {
+            "name": "SyntaxType",
+            "type": "pickList",
+            "label": "Syntax type",
+            "defaultValue": "Standard",
+            "required": true,
+            "helpMarkDown": "The syntax used for the patch content. See documentation for more information.",
+            "options": {
+                "standard": "Standard Syntax",
+                "slick": "Slick Syntax"
+            }
+        },
+        {
+            "name": "JsonWorkingDir",
+            "type": "filePath",
+            "label": "Patch working directory",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "Patch target file. Example: $(agent.builddirectory)/target.json"
+        },
+        {
+            "name": "JsonTargetFilters",
+            "type": "multiLine",
+            "label": "Target files",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "Patch target file. Example: $(agent.builddirectory)/target.json"
+        },
+        {
+            "name": "JsonPatchContent",
+            "type": "multiLine",
+            "label": "Patch Content",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "Patch content.",
+            "properties": {
+                "resizable": "true",
+                "rows" : "10",
+                "maxLength" : "5000"
+            }
+        },
+        {
+            "name": "OutputPatchFile",
+            "type": "boolean",
+            "label": "Output patched file in logs",
+            "defaultValue": "false",
+            "helpMarkDown": "Output patched file in logs"
+        }
+    ],
+    "execution": {
+        "Node": {
+            "target": "jsonPatch.js",
+            "argumentFormat": ""
+        }
+    }
+}

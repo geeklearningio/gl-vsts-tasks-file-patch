@@ -1,0 +1,12 @@
+{
+  "name": "jsonpatch",
+  "private": true,
+  "version": "0.1.0",
+  "dependencies": {
+    "fs-extra": "0.4.7",
+    "micromatch": "1.1.1",
+    "fast-json-patch": "3.9.0",
+    "xregexp": "3.1.1",
+    "vsts-task-lib": "0.9.6"
+  }
+}

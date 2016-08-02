@@ -1,0 +1,6 @@
+{
+  "Framework": "jasmine",
+  "Tests": [
+    { "Includes": ["**/*.spec.js"], "Excludes": [] }
+  ]
+}

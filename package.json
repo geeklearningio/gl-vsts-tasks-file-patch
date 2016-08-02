@@ -1,0 +1,36 @@
+{
+  "name": "gl-vsts-tasks-azure",
+  "version": "0.1.0",
+  "description": "Additionnal Azure tasks for the Team Services build system",
+  "main": "gulpfile.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "postinstall": "node ./BuildScripts/install.js",
+    "prebuild": "node ./BuildScripts/prebuild.js",
+    "build": "tsc",
+    "package": "node BuildScripts/package.js",
+    "test": "jasmine JASMINE_CONFIG_PATH=./Tests/jasmine.json",
+    "test:chutzpah": "chutzpah.console ./tests/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/geeklearningio/gl-vsts-tasks-azure"
+  },
+  "keywords": [
+    "VSTS",
+    "build",
+    "tasks",
+    "Azure"
+  ],
+  "author": "Geek Learning, Adrien Siffermann, Cyprien Autexier",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/geeklearningio/gl-vsts-tasks-azure/issues"
+  },
+  "homepage": "https://github.com/geeklearningio/gl-vsts-tasks-azure/vsts-tasks",
+  "devDependencies": {
+    "async": "2.0.1"
+  }
+}

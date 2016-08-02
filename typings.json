@@ -1,0 +1,15 @@
+{
+  "name": "gl-vsts-tasks-azure",
+  "dependencies": {},
+  "globalDependencies": {
+    "fs-extra": "registry:dt/fs-extra#0.0.0+20160517121359",
+    "jasmine": "registry:dt/jasmine#2.2.0+20160621224255",
+    "micromatch": "registry:dt/micromatch#2.3.7+20160123140905",
+    "node": "registry:dt/node#6.0.0+20160728152422",
+    "parse-glob": "registry:dt/parse-glob#3.0.4+20160110125512",
+    "q": "registry:dt/q#0.0.0+20160613154756",
+    "xmldom": "registry:dt/xmldom#0.1.22+20160319053438",
+    "xpath": "registry:dt/xpath#0.0.7+20160316155526",
+    "xregexp": "registry:dt/xregexp#3.0.0+20160317120654"
+  }
+}
