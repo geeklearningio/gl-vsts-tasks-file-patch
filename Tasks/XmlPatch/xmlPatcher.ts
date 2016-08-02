@@ -107,7 +107,7 @@ export class XmlPatcher implements patch.IPatcher {
 export function loadNamespaces(map: string): { [tag: string]: string } {
     var result: { [tag: string]: string } = {};
 
-    XRegExp.forEach(map, /^(?<tag>.*?)\s*=>\s*(?<uri>.*?)\s*?$/gm, (match) => {
+    XRegExp.forEach(map, XRegExp('^(?<tag>.*?)\\s*=>\\s*(?<uri>.*?)\\s*?$','gm'), (match) => {
         result[(<any>match).tag] = (<any>match).uri;
     });
 

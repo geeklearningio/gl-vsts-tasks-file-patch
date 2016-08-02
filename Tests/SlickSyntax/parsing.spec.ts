@@ -1,0 +1,100 @@
+/**
+ * Created by autex on 5/31/2016.
+ */
+"use strict"
+
+import patch = require("../../Tasks/JsonPatch/common/patch");
+
+var str = '+ /test/whatever/toto =>   "42"\n= /test/whatever/toto/grade => 0\n- /test/whatever/toto/t=> 0\n? /test/whatever/toto/ => "toto"\n&/test/copy/titi => /toto/target/grosminet\n> /test/copy/titi => /toto/target/grosminet';
+
+describe("Whistespace support", () => {
+    it("Whistespaces are ignored", () => {
+        var parser = new patch.SlickPatchParser();
+        var patches  = parser.parse('+    /test/whatever \t => "42" ');
+        expect(patches.length).toEqual(1);
+        expect(patches[0].op).toEqual('add');
+        expect(patches[0].path).toEqual('/test/whatever');
+        expect(patches[0].value).toEqual('42');
+    });
+
+    it("Must accept multiple lines", () => {
+        var parser = new patch.SlickPatchParser();
+        var patches  = parser.parse('+    /test/whatever \t => "42" \n - /test/whatever/toto/t \n +    /test/answer \t => "42"');
+        expect(patches.length).toEqual(3);
+        expect(patches[0].op).toEqual('add');
+        expect(patches[0].path).toEqual('/test/whatever');
+        expect(patches[0].value).toEqual('42');
+
+        expect(patches[0].op).toEqual('remove');
+        expect(patches[0].path).toEqual('/test/whatever');
+
+        expect(patches[0].op).toEqual('add');
+        expect(patches[0].path).toEqual('/test/answer');
+        expect(patches[0].value).toEqual('42');
+    });
+});
+
+describe("Add operation", () => {
+    it("an add operation is properly parsed", () => {
+        var parser = new patch.SlickPatchParser();
+        var patches  = parser.parse('+/test/whatever=>"42"');
+        expect(patches.length).toEqual(1);
+        expect(patches[0].op).toEqual('add');
+        expect(patches[0].path).toEqual('/test/whatever');
+        expect(patches[0].value).toEqual('42');
+    });
+});
+
+describe("Remove operation", () => {
+    it("an remove operation is properly parsed", () => {
+        var parser = new patch.SlickPatchParser();
+        var patches  = parser.parse('-/test/whatever=>"42"');
+        expect(patches.length).toEqual(1);
+        expect(patches[0].op).toEqual('remove');
+        expect(patches[0].path).toEqual('/test/whatever');
+    });
+});
+
+describe("Replace operation", () => {
+    it("an replace operation is properly parsed", () => {
+        var parser = new patch.SlickPatchParser();
+        var patches  = parser.parse('=/test/whatever=>"42"');
+        expect(patches.length).toEqual(1);
+        expect(patches[0].op).toEqual('replace');
+        expect(patches[0].path).toEqual('/test/whatever');
+        expect(patches[0].value).toEqual('42');
+    });
+});
+
+describe("move operation", () => {
+    it("an move operation is properly parsed", () => {
+        var parser = new patch.SlickPatchParser();
+        var patches  = parser.parse('>/test/whatever=>/target/whatever');
+        expect(patches.length).toEqual(1);
+        expect(patches[0].op).toEqual('move');
+        expect(patches[0].from).toEqual('/test/whatever');
+        expect(patches[0].path).toEqual('/target/whatever');
+    });
+});
+
+describe("copy operation", () => {
+    it("an copy operation is properly parsed", () => {
+        var parser = new patch.SlickPatchParser();
+        var patches  = parser.parse('&/test/whatever=>/target/whatever');
+        expect(patches.length).toEqual(1);
+        expect(patches[0].op).toEqual('copy');
+        expect(patches[0].from).toEqual('/test/whatever');
+        expect(patches[0].path).toEqual('/target/whatever');
+    });
+});
+
+describe("test operation", () => {
+    it("an test operation is properly parsed", () => {
+        var parser = new patch.SlickPatchParser();
+        var patches  = parser.parse('?/test/whatever=>"42"');
+        expect(patches.length).toEqual(1);
+        expect(patches[0].op).toEqual('test');
+        expect(patches[0].path).toEqual('/test/whatever');
+        expect(patches[0].value).toEqual('42');
+    });
+});

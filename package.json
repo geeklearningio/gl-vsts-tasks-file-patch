@@ -12,6 +12,7 @@
     "prebuild": "node ./BuildScripts/prebuild.js",
     "build": "tsc",
     "package": "node BuildScripts/package.js",
+    "build:test": "run-s build test",
     "test": "jasmine JASMINE_CONFIG_PATH=./Tests/jasmine.json",
     "test:chutzpah": "chutzpah.console ./tests/"
   },
@@ -32,6 +33,7 @@
   },
   "homepage": "https://github.com/geeklearningio/gl-vsts-tasks-azure/vsts-tasks",
   "devDependencies": {
+    "npm-run-all": "2.3.0",
     "async": "2.0.1"
   }
 }
