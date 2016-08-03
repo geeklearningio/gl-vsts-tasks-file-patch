@@ -47,8 +47,8 @@
     },
     "branding": {
         "color": "#008B8B",
-        "theme": "light"
-    },   
+        "theme": "dark"
+    },  
     "files": [
         {
             "path": "Tasks"
