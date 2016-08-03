@@ -11,37 +11,54 @@ export class XmlPatcher implements patch.IPatcher {
 
     }
 
+    getParentPath(path: string): { path: string, nodeName: string, isAttribute: boolean } {
+        var lastSlash = path.lastIndexOf('/');
+        var nodeName = path.substr(lastSlash + 1);
+        var isAttribute = nodeName[0] == '@';
+        return {
+            path: path.substr(0, lastSlash),
+            nodeName: isAttribute ? nodeName.substr(1) : nodeName,
+            isAttribute: isAttribute
+        };
+    }
+
     notfound(patch: patch.IPatch): boolean {
         console.log(patch.path + " was not found");
         return false;
     }
 
-    remove(xml: any, select: any, patch: patch.IPatch): boolean {
+    remove(xml: Document, select: any, patch: patch.IPatch): boolean {
         var node = <SVGSVGElement>select(patch.path, xml, true);
         if (node) {
-            node.remove();
+            var parentPath = this.getParentPath(patch.path);
+            var parentNode = <SVGSVGElement>select(parentPath.path, xml, true);
+            if (parentPath.isAttribute){
+                parentNode.removeAttribute(parentPath.nodeName);
+            } else {
+                node.parentNode.removeChild(node);
+            }
             return true;
         } else {
             return this.notfound(patch);
         }
     }
 
-    move(xml: any, select: any, patch: patch.IPatch) : boolean {
+    move(xml: Document, select: any, patch: patch.IPatch): boolean {
         var fromNode = <SVGSVGElement>select(patch.from, xml, true);
         var toNode = <SVGSVGElement>select(patch.path, xml, true);
         if (fromNode) {
             patch.value = fromNode.textContent;
-            fromNode.remove();
+            this.remove(xml, select, { op: 'remove', path : patch.from });
             return this.replace(xml, select, patch);
         } else {
             return this.notfound(patch);
         }
     }
 
-    copy(xml: any, select: any, patch: patch.IPatch) : boolean {
+    copy(xml: Document, select: any, patch: patch.IPatch): boolean {
         var fromNode = <SVGSVGElement>select(patch.from, xml, true);
         var toNode = <SVGSVGElement>select(patch.path, xml, true);
-         if (fromNode) {
+        if (fromNode) {
             patch.value = fromNode.textContent;
             return this.replace(xml, select, patch);
         } else {
@@ -49,26 +66,49 @@ export class XmlPatcher implements patch.IPatcher {
         }
     }
 
-    add(xml: any, select: any, patch: patch.IPatch) : boolean {
-        var node = <SVGSVGElement>select(patch.path, xml, true);
-        if (node) {
-            return false;
-        } else {
-            this.notfound(patch);
-        }
-    }
-
-    replace(xml: any, select: any, patch: patch.IPatch) : boolean {
+    add(xml: Document, select: any, patch: patch.IPatch): boolean {
         var node = <SVGSVGElement>select(patch.path, xml, true);
         if (node) {
             node.textContent = patch.value;
+            return true;
+        } else {
+            var lastSlash = patch.path.lastIndexOf('/');
+            var parentPath = patch.path.substr(0, lastSlash);
+            var newNodeName = patch.path.substr(lastSlash + 1);
+            node = <SVGSVGElement>select(parentPath, xml, true);
+            if (node) {
+                if (newNodeName[0] == '@') {
+                    node.setAttribute(newNodeName.substr(1), patch.value);
+                    return true;
+                } else {
+                    var newNode = xml.createElement(newNodeName);
+                    newNode.textContent = patch.value;
+                    node.appendChild(newNode);
+                    return true;
+                }
+            } else {
+                return this.notfound(patch);
+            }
+        }
+    }
+
+    replace(xml: Document, select: any, patch: patch.IPatch): boolean {
+        var node = <SVGSVGElement>select(patch.path, xml, true);
+        if (node) {
+            var parentPath = this.getParentPath(patch.path);
+            var parentNode = <SVGSVGElement>select(parentPath.path, xml, true);
+            if (parentPath.isAttribute){
+                parentNode.setAttribute(parentPath.nodeName, patch.value);
+            } else {
+                 node.textContent = patch.value;
+            }
             return true;
         } else {
             return this.add(xml, select, patch);
         }
     }
 
-    test(xml: any, select: any, patch: patch.IPatch) : boolean {
+    test(xml: Document, select: any, patch: patch.IPatch): boolean {
         var node = <SVGSVGElement>select(patch.path, xml, true);
         if (node && node.textContent == patch.value) {
             return true;
@@ -84,19 +124,19 @@ export class XmlPatcher implements patch.IPatcher {
             var patch = this.patches[index];
             var operation: (xml: any, select: any, patch: patch.IPatch) => boolean = (xml, select, patch) => false;
             if (patch.op == 'replace') {
-                operation = this.replace;
+                operation = this.replace.bind(this);
             } else if (patch.op == 'add') {
-                operation = this.add;
+                operation = this.add.bind(this);
             } else if (patch.op == 'remove') {
-                operation = this.remove;
+                operation = this.remove.bind(this);
             } else if (patch.op == 'copy') {
-                operation = this.copy;
+                operation = this.copy.bind(this);
             } else if (patch.op == 'move') {
-                operation = this.move;
+                operation = this.move.bind(this);
             } else if (patch.op == 'test') {
-                operation = this.test;
+                operation = this.test.bind(this);
             }
-            if (!operation(xml, select, patch)){
+            if (!operation(xml, select, patch)) {
                 throw new Error("Failed to patch xml file");
             }
         }
@@ -107,7 +147,7 @@ export class XmlPatcher implements patch.IPatcher {
 export function loadNamespaces(map: string): { [tag: string]: string } {
     var result: { [tag: string]: string } = {};
 
-    XRegExp.forEach(map, XRegExp('^(?<tag>.*?)\\s*=>\\s*(?<uri>.*?)\\s*?$','gm'), (match) => {
+    XRegExp.forEach(map, XRegExp('^\\s*(?<tag>.*?)\\s*=>\\s*(?<uri>.*?)\\s*?$', 'gm'), (match) => {
         result[(<any>match).tag] = (<any>match).uri;
     });
 
