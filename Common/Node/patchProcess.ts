@@ -1,6 +1,6 @@
-import bom = require('./bom')
+import bom = require('./shared/bom')
 import patch = require('./patch');
-import matcher = require('./matcher');
+import matcher = require('./shared/multimatch');
 import tl = require('vsts-task-lib/task');
 import fs = require('fs');
 

@@ -7,6 +7,7 @@
     "doc": "docs"
   },
   "scripts": {
+    "clean" : "node ./BuildScripts/clean.js",
     "pullsubmodules": "git submodule foreach git pull origin master",
     "postinstall": "node ./BuildScripts/install.js",
     "prebuild": "node ./BuildScripts/prebuild.js",
