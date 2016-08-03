@@ -1,7 +1,7 @@
 {
     "id": "ACEE093C-D84E-456E-B6F3-1D65969291BD",
     "name": "XmlPatch",
-    "friendlyName": "Xml Patch",
+    "friendlyName": "Patch Xml",
     "description": "Apply a Json Patch to an xml file",
     "category": "Utility",
     "visibility": [

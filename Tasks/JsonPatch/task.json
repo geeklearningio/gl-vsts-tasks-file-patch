@@ -1,7 +1,7 @@
 {
     "id": "DEEAA603-DA23-43AB-A099-33AEFE358520",
     "name": "JsonPatch",
-    "friendlyName": "Json Patch",
+    "friendlyName": "Patch Json",
     "description": "Apply a Json Patch to a file",
     "category": "Utility",
     "visibility": [
