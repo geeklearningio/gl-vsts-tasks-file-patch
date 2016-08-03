@@ -3,6 +3,7 @@
     "name": "JsonPatch",
     "friendlyName": "Patch Json",
     "description": "Apply a Json Patch to a file",
+    "helpMarkDown": "[More Information](https://github.com/geeklearningio/gl-vsts-tasks-file-patch/wiki/Patch-Json) (Version #{Version}#)",    
     "category": "Utility",
     "visibility": [
         "Build",
