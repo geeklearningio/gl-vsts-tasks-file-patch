@@ -25,6 +25,9 @@
     ],
     "screenshots": [
         {
+            "path": "Screenshots/TestBuild.png"
+        },
+        {
             "path": "Screenshots/Add-Tasks.png"
         }
     ],

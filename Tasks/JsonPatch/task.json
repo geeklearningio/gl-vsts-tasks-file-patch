@@ -39,7 +39,7 @@
             "label": "Patch working directory",
             "defaultValue": "",
             "required": true,
-            "helpMarkDown": "Patch target file. Example: $(agent.builddirectory)/target.json"
+            "helpMarkDown": "Working directory. Example: $(Build.SourcesDirectory)"
         },
         {
             "name": "JsonTargetFilters",
@@ -47,7 +47,7 @@
             "label": "Target files",
             "defaultValue": "",
             "required": true,
-            "helpMarkDown": "Patch target file. Example: $(agent.builddirectory)/target.json"
+            "helpMarkDown": "Patch target file. Example: appsettings*.json"
         },
         {
             "name": "JsonPatchContent",
