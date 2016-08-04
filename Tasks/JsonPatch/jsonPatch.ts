@@ -15,8 +15,6 @@ var outputPatchedFile = tl.getBoolInput("OutputPatchFile");
 var syntax = tl.getInput("SyntaxType");
 
 try {
-
-
     var patches: patch.IPatch[] = syntax == "slick" ? 
     patchProcess.expandVariablesAndParseSlickPatch(patchContent) :
     patchProcess.expandVariablesAndParseJson(patchContent);
@@ -24,6 +22,7 @@ try {
     patchProcess.apply(new jsonPatcher.JsonPatcher(patches), targetPath, patterns, outputPatchedFile);
 
     tl.setResult(tl.TaskResult.Succeeded, "Files Patched");
+
 } catch (err) {
     console.error(String(err));
     tl.setResult(tl.TaskResult.Failed, String(err));
