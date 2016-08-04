@@ -54,7 +54,7 @@
             "type": "multiLine",
             "label": "Xml Namespaces (As a Json map)",
             "defaultValue": "",
-            "required": true,
+            "required": false,
             "helpMarkDown": "Xml namespaces as a json map.",
             "properties": {
                 "resizable": "true",

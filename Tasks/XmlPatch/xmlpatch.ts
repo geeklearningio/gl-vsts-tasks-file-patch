@@ -22,9 +22,9 @@ var patterns: any = tl.getInput("JsonTargetFilters")
 
 try {
 
-    var namespaces = syntax == "slick" ? 
+    var namespaces: { [tag: string]: string } = syntax == "slick" ? 
         xmlPatcher.loadNamespaces(tl.getInput("Namespaces")) : 
-        JSON.parse(tl.getInput("Namespaces"));
+        (namespaces ? JSON.parse(tl.getInput("Namespaces")) : {});
 
     var patches: patch.IPatch[] = syntax == "slick" ? 
     patchProcess.expandVariablesAndParseSlickPatch(patchContent) :
