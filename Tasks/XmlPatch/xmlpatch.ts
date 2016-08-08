@@ -12,16 +12,14 @@ interface IPatch{
     value: any;
 }
 
-
-var targetPath = tl.getPathInput("JsonWorkingDir");
+var targetPath = tl.getPathInput("XmlWorkingDir");
 var patchContent = tl.getInput("JsonPatchContent");
 var outputPatchedFile = tl.getBoolInput("OutputPatchFile");
 var syntax = tl.getInput("SyntaxType");
 
-var patterns: any = tl.getInput("JsonTargetFilters")
+var patterns: any = tl.getInput("XmlTargetFilters")
 
 try {
-
     var namespaces: { [tag: string]: string } = syntax == "slick" ? 
         xmlPatcher.loadNamespaces(tl.getInput("Namespaces")) : 
         (namespaces ? JSON.parse(tl.getInput("Namespaces")) : {});
@@ -33,6 +31,7 @@ try {
     patchProcess.apply(new xmlPatcher.XmlPatcher(patches, namespaces), targetPath, patterns, outputPatchedFile);
 
     tl.setResult(tl.TaskResult.Succeeded, "Files Patched");
+
 } catch (err) {
     console.error(String(err));
     tl.setResult(tl.TaskResult.Failed, String(err));

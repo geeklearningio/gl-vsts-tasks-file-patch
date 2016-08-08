@@ -8,7 +8,6 @@ export class XmlPatcher implements patch.IPatcher {
         private patches: patch.IPatch[],
         private namespaces: { [tag: string]: string }
     ) {
-
     }
 
     getParentPath(path: string): { path: string, nodeName: string, isAttribute: boolean } {
@@ -136,10 +135,12 @@ export class XmlPatcher implements patch.IPatcher {
             } else if (patch.op == 'test') {
                 operation = this.test.bind(this);
             }
+            
             if (!operation(xml, select, patch)) {
                 throw new Error("Failed to patch xml file");
             }
         }
+        
         return new xmldom.XMLSerializer().serializeToString(xml);
     }
 }

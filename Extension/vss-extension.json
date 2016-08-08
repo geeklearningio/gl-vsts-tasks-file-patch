@@ -1,15 +1,15 @@
 {
     "manifestVersion": 1,
     "id": "gl-vsts-tasks-file-patch",
-    "name": "File patch Build and Release Tasks",
-    "version": "0.0.18",
+    "name": "File Patch Build and Release Tasks",
+    "version": "0.0.0",
     "publisher": "geeklearningio",    
     "targets": [
         {
             "id": "Microsoft.VisualStudio.Services"
         }
     ],    
-    "description": "Update files using json patch and similar syntax with these Build and Release Management tasks.",
+    "description": "Update files using JSON patch and similar syntax with these Build and Release Management tasks.",
     "categories": [
         "Build and release"
     ],
@@ -22,6 +22,14 @@
         "patch",
         "utility",
         "file"
+    ],
+    "screenshots": [
+        {
+            "path": "Screenshots/TestBuild.png"
+        },
+        {
+            "path": "Screenshots/Add-Tasks.png"
+        }
     ],
     "content": {
         "details": {
@@ -52,30 +60,10 @@
     "files": [
         {
             "path": "Tasks"
-        }
-    ],
-    "contributions": [
-        {
-            "id": "json-patch-task",
-            "type": "ms.vss-distributed-task.task",
-            "description": "Applies a json patch to a file",
-            "targets": [
-                "ms.vss-distributed-task.tasks"
-            ],
-            "properties": {
-                "name": "Tasks/JsonPatch"
-            }
         },
         {
-            "id": "xml-patch-task",
-            "type": "ms.vss-distributed-task.task",
-            "description": "Applies a json patch to an xml file",
-            "targets": [
-                "ms.vss-distributed-task.tasks"
-            ],
-            "properties": {
-                "name": "Tasks/XmlPatch"
-            }
+            "path": "Screenshots",
+            "addressable": true
         }
     ]
 }

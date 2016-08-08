@@ -1,9 +1,9 @@
 {
     "id": "ACEE093C-D84E-456E-B6F3-1D65969291BD",
     "name": "XmlPatch",
-    "friendlyName": "Patch Xml",
-    "description": "Applies a Xml Patch",
-    "helpMarkDown": "[More Information](https://github.com/geeklearningio/gl-vsts-tasks-file-patch/wiki/Patch-Xml) (Version #{Version}#)",    
+    "friendlyName": "Patch XML Files",
+    "description": "Patch XML files using XPath and JSON patch syntaxes",
+    "helpMarkDown": "[More Information](https://github.com/geeklearningio/gl-vsts-tasks-file-patch/wiki/Patch-XML-Files) (Version #{Version}#)",    
     "category": "Utility",
     "visibility": [
         "Build",
@@ -13,13 +13,13 @@
     "version": {
         "Major": 0,
         "Minor": 0,
-        "Patch": 45
+        "Patch": 0
     },
     "demands": [
         "npm"
     ],
     "minimumAgentVersion": "1.91.0",
-    "instanceNameFormat": "Patches files $(JsonTarget)",
+    "instanceNameFormat": "Patch files $(XmlTargetFilters)",
     "inputs": [
         {
             "name": "SyntaxType",
@@ -34,20 +34,20 @@
             }
         },
         {
-            "name": "JsonWorkingDir",
+            "name": "XmlWorkingDir",
             "type": "filePath",
             "label": "Patch working directory",
             "defaultValue": "",
             "required": true,
-            "helpMarkDown": "Patch target file. Example: $(agent.builddirectory)/target.json"
+            "helpMarkDown": "Working directory. Example: $(Build.SourcesDirectory)"
         },
         {
-            "name": "JsonTargetFilters",
+            "name": "XmlTargetFilters",
             "type": "multiLine",
             "label": "Target files",
             "defaultValue": "",
             "required": true,
-            "helpMarkDown": "Patch target file. Example: $(agent.builddirectory)/target.json"
+            "helpMarkDown": "Patch target files. Example: config*.xml"
         },
         {
             "name": "Namespaces",

@@ -1,9 +1,9 @@
 {
     "id": "DEEAA603-DA23-43AB-A099-33AEFE358520",
     "name": "JsonPatch",
-    "friendlyName": "Patch Json",
-    "description": "Applies a Json Patch",
-    "helpMarkDown": "[More Information](https://github.com/geeklearningio/gl-vsts-tasks-file-patch/wiki/Patch-Json) (Version #{Version}#)",    
+    "friendlyName": "Patch JSON Files",
+    "description": "Patch JSON files using JSON patch syntax",
+    "helpMarkDown": "[More Information](https://github.com/geeklearningio/gl-vsts-tasks-file-patch/wiki/Patch-JSON-Files) (Version #{Version}#)",    
     "category": "Utility",
     "visibility": [
         "Build",
@@ -13,13 +13,13 @@
     "version": {
         "Major": 0,
         "Minor": 0,
-        "Patch": 41
+        "Patch": 0
     },
     "demands": [
         "npm"
     ],
     "minimumAgentVersion": "1.91.0",
-    "instanceNameFormat": "Patches files $(JsonTarget)",
+    "instanceNameFormat": "Patch files $(JsonTargetFilters)",
     "inputs": [
          {
             "name": "SyntaxType",
@@ -39,7 +39,7 @@
             "label": "Patch working directory",
             "defaultValue": "",
             "required": true,
-            "helpMarkDown": "Patch target file. Example: $(agent.builddirectory)/target.json"
+            "helpMarkDown": "Working directory. Example: $(Build.SourcesDirectory)"
         },
         {
             "name": "JsonTargetFilters",
@@ -47,7 +47,7 @@
             "label": "Target files",
             "defaultValue": "",
             "required": true,
-            "helpMarkDown": "Patch target file. Example: $(agent.builddirectory)/target.json"
+            "helpMarkDown": "Patch target file. Example: appsettings*.json"
         },
         {
             "name": "JsonPatchContent",
