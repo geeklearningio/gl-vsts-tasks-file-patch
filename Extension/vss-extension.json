@@ -9,7 +9,7 @@
             "id": "Microsoft.VisualStudio.Services"
         }
     ],    
-    "description": "Build and Release Management extensions that help you update files using json patch and similar syntax.",
+    "description": "Update files using json patch and similar syntax with these Build and Release Management tasks.",
     "categories": [
         "Build and release"
     ],
