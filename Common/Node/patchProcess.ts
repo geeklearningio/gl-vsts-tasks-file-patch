@@ -36,4 +36,7 @@ export function apply(patcher: patch.IPatcher, workingDirectory: string, filters
 
         fs.writeFileSync(file, bom.restoreBom(fileContent), { encoding: 'utf8' });
     }
+    if (!files.length){
+        tl.warning("Patch was not applied because there are no file matching the provided patterns in the specified directory");
+    }
 }
