@@ -18,6 +18,7 @@
             "VssExtensionGalleryFlags": [],
             "DisplayNamesSuffix": " (Preview)",
             "TaskIds": {
+                "YamlPatch": "790b91da-30c1-4ffb-9d60-43c0fe6096f2",
                 "JsonPatch": "1309EACE-BCEB-46A5-872A-9D9E33820D1D",
                 "XmlPatch": "FBDB24F0-CC20-4927-AF82-18421B3DA3CD"
             }
@@ -28,6 +29,7 @@
             "VssExtensionGalleryFlags": [],
             "DisplayNamesSuffix": " (Development)",
             "TaskIds": {
+                "YamlPatch": "14568f85-c21b-490f-b102-568d2a0da4bf",
                 "JsonPatch": "578A87B3-5A3F-461B-828D-E53DA43A8F3A",
                 "XmlPatch": "BD8DCFA1-1592-4DA9-8437-871752577791"
             }

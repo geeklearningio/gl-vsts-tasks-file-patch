@@ -19,6 +19,7 @@
     "exclude":[
         "node_modules",
         "Tasks/JsonPatch/node_modules",
+        "Tasks/YamlPatch/node_modules",
         "Common",
         "BuildScripts/node_modules",
         ".BuildOutput"
