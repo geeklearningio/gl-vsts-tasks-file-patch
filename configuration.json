@@ -30,6 +30,7 @@
             "VssExtensionGalleryFlags": [],
             "DisplayNamesSuffix": " (Development)",
             "TaskIds": {
+                "PlistPatch" : "36db878b-3060-4465-86d2-d6a73ddbc0ad",
                 "YamlPatch": "14568f85-c21b-490f-b102-568d2a0da4bf",
                 "JsonPatch": "578A87B3-5A3F-461B-828D-E53DA43A8F3A",
                 "XmlPatch": "BD8DCFA1-1592-4DA9-8437-871752577791"

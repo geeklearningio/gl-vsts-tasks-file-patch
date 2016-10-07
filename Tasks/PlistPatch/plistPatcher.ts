@@ -4,7 +4,11 @@ var plist = require('plist');
 
 export class PlistPatcher extends jsonPatcher.JsonPatcher {
 
-    constructor(patches: patch.IPatch[]) {
-        super(patches, (content) => plist.parse(content));
+    parse(content: string): any {
+        return plist.parse(content);
+    }
+
+    stringify(content: any): string {
+        return plist.build(content);
     }
 }
