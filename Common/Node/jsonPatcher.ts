@@ -4,12 +4,16 @@ var jsonPatch = require('fast-json-patch');
 
 export class JsonPatcher implements patch.IPatcher {
     constructor(
-        private patches: patch.IPatch[], 
-        private parse?: (content: string) => any
+        private patches: patch.IPatch[]
     ) {
-        if (!this.parse) {
-            this.parse = (content) => JSON.parse(content);
-        }
+    }
+
+    protected parse(content: string): any {
+        return JSON.parse(content);
+    }
+
+    protected stringify(content: any): string {
+        return JSON.stringify(content);
     }
 
     apply(content: string): string {
@@ -17,7 +21,7 @@ export class JsonPatcher implements patch.IPatcher {
         var prevalidate = jsonPatch.validate(this.patches, json);
         var result = jsonPatch.apply(json, this.patches, false);
         if (result) {
-            return JSON.stringify(json);
+            return this.stringify(json);
         } else {
             throw new Error('Failed to apply patch')
         }
