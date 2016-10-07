@@ -12,6 +12,7 @@ Visual Studio Team Services Build and Release Management extensions that help yo
 
 * **[Patch JSON Files](https://github.com/geeklearningio/gl-vsts-tasks-file-patch/wiki/Patch-JSON-Files)**: Patch JSON files using JSON patch syntax
 * **[Patch XML Files](https://github.com/geeklearningio/gl-vsts-tasks-file-patch/wiki/Patch-XML-Files)**: Patch XML files using XPath and JSON patch syntaxes
+* **[Patch YAML Files](https://github.com/geeklearningio/gl-vsts-tasks-file-patch/wiki/Patch-YAML-Files)**: Patch YAML files using JSON patch syntax
 
 ## To contribute
 
@@ -21,6 +22,9 @@ Visual Studio Team Services Build and Release Management extensions that help yo
 4. Run `npm run package -- --version <version>` to create the .vsix extension packages (supports multiple environments) that includes the build tasks.
 
 ## Release Notes
+
+> **10-7-2016**
+> - Added: Patch YAML File
 
 > **8-3-2016**
 > - Added: Patch JSON File
