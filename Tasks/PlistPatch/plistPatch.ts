@@ -1,0 +1,30 @@
+import path = require('path');
+import fs = require('fs-extra');
+import tl = require('vsts-task-lib/task');
+import micromatch = require('micromatch');
+import jsYaml = require('js-yaml');
+
+import patch = require('./common/patch');
+import patchProcess = require('./common/patchProcess');
+import plistPatcher = require('./plistPatcher');
+
+var targetPath = tl.getPathInput("YamlWorkingDir");
+var patchContent = tl.getInput("YamlPatchContent");
+
+var patterns: any = tl.getInput("YamlTargetFilters")
+var outputPatchedFile = tl.getBoolInput("OutputPatchFile");
+var syntax = tl.getInput("SyntaxType");
+
+try {
+    var patches: patch.IPatch[] = syntax == "slick" ?
+        patchProcess.expandVariablesAndParseSlickPatch(patchContent) :
+        patchProcess.expandVariablesAndParseJson(patchContent);
+
+    patchProcess.apply(new plistPatcher.PlistPatcher(patches), targetPath, patterns, outputPatchedFile);
+
+    tl.setResult(tl.TaskResult.Succeeded, "Files Patched");
+
+} catch (err) {
+    console.error(String(err));
+    tl.setResult(tl.TaskResult.Failed, String(err));
+}

@@ -1,29 +1,30 @@
-import yamlPatcher = require("../../Tasks/YamlPatch/yamlPatcher");
-var jsYaml = require("../../Tasks/YamlPatch/node_modules/js-yaml");
+import plistPatcher = require("../../Tasks/PlistPatch/plistPatcher");
+var plist = require("../../Tasks/PlistPatch/node_modules/plist");
 
 
-describe("YAML Patcher", () => {
+
+describe("PLIST Patcher", () => {
 
     describe("Operations", () => {
     
         var source: string;
 
         beforeEach(function() {
-            source = jsYaml.safeDump({
+            source = plist.build({
                 sampleValue : "12"
             });
         });
 
         describe("Add", () => {
             it(": should support basic add.", () => {
-                var patcher = new yamlPatcher.YamlPatcher([
+                var patcher = new plistPatcher.PlistPatcher([
                     { 
                         op: "add", path: "/added", value: {}
                     },{
                         op: "add", path: "/added/value", value: "42" 
                     }
                 ]);
-                var result = jsYaml.safeLoad(patcher.apply(source));
+                var result = plist.parse(patcher.apply(source));
 
                 expect(result).toBeDefined();
                 expect(result.sampleValue).toBeDefined();
