@@ -6,7 +6,7 @@ import jsYaml = require('js-yaml');
 
 import patch = require('./common/patch');
 import patchProcess = require('./common/patchProcess');
-import yamlPatcher = require('./yamlPatcher');
+import plistPatcher = require('./plistPatcher');
 
 var targetPath = tl.getPathInput("YamlWorkingDir");
 var patchContent = tl.getInput("YamlPatchContent");
@@ -20,7 +20,7 @@ try {
         patchProcess.expandVariablesAndParseSlickPatch(patchContent) :
         patchProcess.expandVariablesAndParseJson(patchContent);
 
-    patchProcess.apply(new yamlPatcher.YamlPatcher(patches), targetPath, patterns, outputPatchedFile);
+    patchProcess.apply(new plistPatcher.PlistPatcher(patches), targetPath, patterns, outputPatchedFile);
 
     tl.setResult(tl.TaskResult.Succeeded, "Files Patched");
 
