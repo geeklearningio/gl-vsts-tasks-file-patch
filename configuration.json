@@ -8,6 +8,7 @@
             ],
             "DisplayNamesSuffix": "",
             "TaskIds": {
+                "YamlPatch": "ab41f149-dbaa-4bf3-b1df-905d523a16c1",
                 "JsonPatch": "DEEAA603-DA23-43AB-A099-33AEFE358520",
                 "XmlPatch": "ACEE093C-D84E-456E-B6F3-1D65969291BD"
             }
