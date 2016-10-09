@@ -2,16 +2,15 @@ import path = require('path');
 import fs = require('fs-extra');
 import tl = require('vsts-task-lib/task');
 import micromatch = require('micromatch');
-import jsYaml = require('js-yaml');
 
 import patch = require('./common/patch');
 import patchProcess = require('./common/patchProcess');
 import plistPatcher = require('./plistPatcher');
 
-var targetPath = tl.getPathInput("YamlWorkingDir");
-var patchContent = tl.getInput("YamlPatchContent");
+var targetPath = tl.getPathInput("PlistWorkingDir");
+var patchContent = tl.getInput("PlistPatchContent");
 
-var patterns: any = tl.getInput("YamlTargetFilters")
+var patterns: any = tl.getInput("PlistTargetFilters")
 var outputPatchedFile = tl.getBoolInput("OutputPatchFile");
 var syntax = tl.getInput("SyntaxType");
 
