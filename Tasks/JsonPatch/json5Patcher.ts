@@ -19,7 +19,7 @@ export class Json5Patcher extends jsonPatcher.JsonPatcher {
         if (this.outputJson5) {
             return JSON5.stringify(content);
         } else {
-            super.stringify(content)
+            return super.stringify(content)
         }
     }
 }
