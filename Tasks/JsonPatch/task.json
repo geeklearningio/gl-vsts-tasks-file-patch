@@ -68,6 +68,13 @@
             "label": "Output patched file in logs",
             "defaultValue": "false",
             "helpMarkDown": "Output patched file in logs"
+        },
+        {
+            "name": "UseJson5",
+            "type": "boolean",
+            "label": "Use JSON 5",
+            "defaultValue": "false",
+            "helpMarkDown": "This enables JSON5 syntax support"
         }
     ],
     "execution": {
