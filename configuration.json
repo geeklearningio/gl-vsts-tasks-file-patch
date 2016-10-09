@@ -8,6 +8,7 @@
             ],
             "DisplayNamesSuffix": "",
             "TaskIds": {
+                "PlistPatch" : "e029b256-7454-47a0-bfd6-046239a4e9a0",
                 "YamlPatch": "ab41f149-dbaa-4bf3-b1df-905d523a16c1",
                 "JsonPatch": "DEEAA603-DA23-43AB-A099-33AEFE358520",
                 "XmlPatch": "ACEE093C-D84E-456E-B6F3-1D65969291BD"
@@ -19,6 +20,7 @@
             "VssExtensionGalleryFlags": [],
             "DisplayNamesSuffix": " (Preview)",
             "TaskIds": {
+                "PlistPatch" : "fe6fa72a-fe56-4447-8bca-c4f294f88779",
                 "YamlPatch": "790b91da-30c1-4ffb-9d60-43c0fe6096f2",
                 "JsonPatch": "1309EACE-BCEB-46A5-872A-9D9E33820D1D",
                 "XmlPatch": "FBDB24F0-CC20-4927-AF82-18421B3DA3CD"
