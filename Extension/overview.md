@@ -23,6 +23,10 @@ The [source](https://github.com/geeklearningio/gl-vsts-tasks-file-patch) for thi
 
 ## Release Notes
 
+> **10-9-2016**
+> - Added: Patch PLIST File
+> - Improved: Patch JSON File with JSON5 parser support and JSON5 output support.
+
 > **10-7-2016**
 > - Added: Patch YAML File
 

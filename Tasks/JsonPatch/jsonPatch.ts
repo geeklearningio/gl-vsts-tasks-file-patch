@@ -15,13 +15,14 @@ var patterns: any = tl.getInput("JsonTargetFilters")
 var outputPatchedFile = tl.getBoolInput("OutputPatchFile");
 var syntax = tl.getInput("SyntaxType");
 var useJson5 = tl.getBoolInput("UseJson5");
+var produceJson5 = tl.getBoolInput("ProduceJson5");
 
 try {
     var patches: patch.IPatch[] = syntax == "slick" ? 
     patchProcess.expandVariablesAndParseSlickPatch(patchContent) :
     patchProcess.expandVariablesAndParseJson(patchContent);
 
-    var patcher = useJson5 ? new json5Patcher.Json5Patcher(patches) : new jsonPatcher.JsonPatcher(patches);
+    var patcher = useJson5 ? new json5Patcher.Json5Patcher(patches, produceJson5) : new jsonPatcher.JsonPatcher(patches);
 
     patchProcess.apply(patcher, targetPath, patterns, outputPatchedFile);
 

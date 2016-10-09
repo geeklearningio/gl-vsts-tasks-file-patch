@@ -4,11 +4,22 @@ var JSON5 = require('json5');
 
 export class Json5Patcher extends jsonPatcher.JsonPatcher {
 
+    constructor(
+        patches: patch.IPatch[],
+        private outputJson5: boolean
+    ) {
+        super(patches);
+    }
+
     parse(content: string): any {
         return JSON5.parse(content);
     }
 
     stringify(content: any): string {
-        return JSON5.stringify(content);
+        if (this.outputJson5) {
+            return JSON5.stringify(content);
+        } else {
+            super.stringify(content)
+        }
     }
 }

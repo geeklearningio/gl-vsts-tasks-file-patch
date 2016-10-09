@@ -75,6 +75,13 @@
             "label": "Use JSON 5",
             "defaultValue": "false",
             "helpMarkDown": "This enables JSON5 syntax support"
+        },
+        {
+            "name": "ProduceJson5",
+            "type": "boolean",
+            "label": "Produce JSON 5",
+            "defaultValue": "false",
+            "helpMarkDown": "This enables JSON5 output support"
         }
     ],
     "execution": {
