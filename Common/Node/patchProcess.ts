@@ -3,6 +3,7 @@ import patch = require('./patch');
 import matcher = require('./shared/multimatch');
 import tl = require('vsts-task-lib/task');
 import fs = require('fs');
+import * as sh from 'shelljs';
 
 var slickPatchParser = new patch.SlickPatchParser();
 var varRegex = /\$\((.*?)\)/g;
@@ -33,6 +34,9 @@ export function apply(patcher: patch.IPatcher, workingDirectory: string, filters
             console.log('>>>> : patched file');
             console.log(fileContent.content);
         }
+
+        // make the file writable (required if using TFSVC)
+        sh.chmod(666, file);
 
         fs.writeFileSync(file, bom.restoreBom(fileContent), { encoding: 'utf8' });
     }

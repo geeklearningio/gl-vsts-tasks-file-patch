@@ -8,3 +8,4 @@
 /// <reference path="globals/xmldom/index.d.ts" />
 /// <reference path="globals/xpath/index.d.ts" />
 /// <reference path="globals/xregexp/index.d.ts" />
+/// <reference path="modules/shelljs/index.d.ts" />

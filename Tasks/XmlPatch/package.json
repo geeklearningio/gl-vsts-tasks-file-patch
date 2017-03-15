@@ -6,8 +6,9 @@
     "fs-extra": "0.30.0",
     "micromatch": "2.3.11",
     "xmldom": "0.1.22",
-    "xpath": "0.0.23",
+    "xpath": "0.0.24",
     "xregexp": "3.1.1",
-    "vsts-task-lib": "0.9.6"
+    "vsts-task-lib": "1.1.0",
+    "shelljs": "0.7.7"
   }
 }
