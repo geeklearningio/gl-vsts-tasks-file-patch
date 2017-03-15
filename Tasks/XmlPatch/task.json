@@ -81,6 +81,20 @@
             "label": "Output patched file in logs",
             "defaultValue": "false",
             "helpMarkDown": "Output patched file in logs"
+        },
+        {
+            "name": "FailIfNoPatchApplied",
+            "type": "boolean",
+            "label": "Fail if no files is patched.",
+            "defaultValue": "false",
+            "helpMarkDown": "Fail if no files is patched."
+        },
+        {
+            "name": "SkipErrors",
+            "type": "boolean",
+            "label": "Ignore patch errors",
+            "defaultValue": "false",
+            "helpMarkDown": "Ignore patch errors and treat them as warnings"
         }
     ],
     "execution": {

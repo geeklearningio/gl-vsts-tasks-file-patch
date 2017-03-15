@@ -13,6 +13,8 @@ var patchContent = tl.getInput("YamlPatchContent");
 
 var patterns: any = tl.getInput("YamlTargetFilters")
 var outputPatchedFile = tl.getBoolInput("OutputPatchFile");
+var failIfNoPatchApplied = tl.getBoolInput("FailIfNoPatchApplied");
+var skipErrors = tl.getBoolInput("SkipErrors");
 var syntax = tl.getInput("SyntaxType");
 
 try {
@@ -20,9 +22,7 @@ try {
         patchProcess.expandVariablesAndParseSlickPatch(patchContent) :
         patchProcess.expandVariablesAndParseJson(patchContent);
 
-    patchProcess.apply(new yamlPatcher.YamlPatcher(patches), targetPath, patterns, outputPatchedFile);
-
-    tl.setResult(tl.TaskResult.Succeeded, "Files Patched");
+    patchProcess.apply(new yamlPatcher.YamlPatcher(patches), targetPath, patterns, outputPatchedFile, failIfNoPatchApplied, skipErrors);
 
 } catch (err) {
     console.error(String(err));
