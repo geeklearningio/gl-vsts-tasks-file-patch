@@ -11,7 +11,9 @@
     "postinstall": "vsts-build-tools-install",
     "prebuild": "vsts-build-tools-prebuild",
     "build": "tsc",
-    "package": "vsts-build-tools-package",
+    "package:clean": "vsts-build-tools-node-modclean --additionalpatterns \"**/docs/*.md\"",
+    "package:build": "vsts-build-tools-package",
+    "package": "run-s package:clean package:build",
     "pullsubmodules": "git submodule foreach git pull origin master",
     "build:test": "run-s build test",
     "test": "jasmine JASMINE_CONFIG_PATH=./Tests/jasmine.json",
@@ -37,6 +39,7 @@
     "async": "2.0.1",
     "karma": "^1.1.2",
     "npm-run-all": "2.3.0",
-    "gl-vsts-tasks-build-scripts": "0.2.0-alpha.5"
+    "gl-vsts-tasks-build-scripts": "0.2.0-alpha.9",
+    "modclean": "2.1.0"
   }
 }
