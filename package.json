@@ -11,7 +11,7 @@
     "postinstall": "vsts-build-tools-install",
     "prebuild": "vsts-build-tools-prebuild",
     "build": "tsc",
-    "package:clean": "vsts-build-tools-node-modclean --additionalpatterns \"**/docs/*.md\"",
+    "package:clean": "vsts-build-tools-node-modclean --additionalpatterns \"* *.md\"",
     "package": "vsts-build-tools-package",
     "pullsubmodules": "git submodule foreach git pull origin master",
     "build:test": "run-s build test",
