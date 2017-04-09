@@ -37,7 +37,7 @@ describe("XML Patcher", () => {
 
                 expect(result).toEqual('<rootNode><name>a name</name><childNode size="42"><leaf color="#aaaaaa"/><leaf color="#000000"/></childNode></rootNode>');
             });
-            
+
             it(": should support basic node content replace.", () => {
                 var patcher = new xmlatcher.XmlPatcher([
                     {
@@ -85,6 +85,32 @@ describe("XML Patcher", () => {
 
                 expect(result).toEqual('<rootNode><name>a name</name><childNode size="10"><leaf color="#aaaaaa"/><leaf/></childNode></rootNode>');
             });
+        });
+    });
+
+    describe("Regression tests", () => {
+        it(": test #22 find by attribute value is working properly", () => {
+            var source =    '<?xml version="1.0" encoding="utf-8"?> \
+                            <configuration> \
+                            <connectionStrings> \
+                                <add name="db" connectionString="Data Source=local_dev;Database=Internal_DEV;Type System Version=SQL Server 2012;User ID=someone;Password=something;Persist Security Info=True" providerName="System.Data.SqlClient" /> \
+                                <add name="example" connectionString="Data Source=xx;Database=xx;Type System Version=SQL Server 2012;User ID=xx;Password=xx;Persist Security Info=True" providerName="System.Data.SqlClient" /> \
+                            </connectionStrings> \
+                            <appSettings> \
+                                <!-- Specify a super user name, for example \
+                                <add key="SuperUser" value="US\jshkolnik" /> \
+                                --> \
+                                <add key="SuperUser" value="#should_be_replaced#" /> \
+                            </appSettings> \
+                            </configuration>';
+             var patcher = new xmlatcher.XmlPatcher([
+                    {
+                        op: "replace", path: "/configuration/appSettings/add[@key='SuperUser']/@value", value : "a value"
+                    }
+                ], {});
+             var result = patcher.apply(source);
+             console.log(result);
+             expect(result).not.toContain('#should_be_replaced#');
         });
     });
 });
