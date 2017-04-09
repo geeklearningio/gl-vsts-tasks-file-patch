@@ -88,6 +88,116 @@ describe("XML Patcher", () => {
         });
     });
 
+    describe("Array operation tests", () => {
+        var source: string;
+        
+        beforeEach(function () {
+            source = '<rootNode><leaf color="#aaaaaa"/><leaf color="#000000"/></rootNode>';
+        });
+
+        describe("Add", () => {
+            it(": should prepend", () => {
+                var patcher = new xmlatcher.XmlPatcher([
+                    {
+                        op: "add", path: "/rootNode/0", value: "leaf"
+                    },{
+                        op: "replace", path: "/rootNode/leaf:first()/@color", value: "#bbbbbb"
+                    }
+                ], {});
+                var result = patcher.apply(source);
+
+                expect(result).toEqual('<rootNode><leaf color="#bbbbbb"/><leaf color="#aaaaaa"/><leaf color="#000000"/></rootNode>');
+            });
+
+            it(": should add at index", () => {
+                var patcher = new xmlatcher.XmlPatcher([
+                    {
+                        op: "add", path: "/rootNode/1", value: "leaf"
+                    },{
+                        op: "replace", path: "/rootNode/leaf[1]/@color", value: "#bbbbbb"
+                    }
+                ], {});
+                var result = patcher.apply(source);
+
+                expect(result).toEqual('<rootNode><leaf color="#aaaaaa"/><leaf color="#bbbbbb"/><leaf color="#000000"/></rootNode>');
+            });
+
+            it(": should append", () => {
+                var patcher = new xmlatcher.XmlPatcher([
+                    {
+                        op: "add", path: "/rootNode/-", value: "leaf"
+                    },{
+                        op: "replace", path: "/rootNode/leaf:last()/@color", value: "#bbbbbb"
+                    }
+                ], {});
+                var result = patcher.apply(source);
+
+                expect(result).toEqual('<rootNode><leaf color="#aaaaaa"><leaf color="#000000"/><leaf color="#bbbbbb"/></rootNode>');
+            });
+        });
+
+        describe("Replace", () => {
+            it(": replace at index", () => {
+                var patcher = new xmlatcher.XmlPatcher([
+                    {
+                        op: "replace", path: "/rootNode/1", value: "otherleaf"
+                    }
+                ], {});
+                var result = patcher.apply(source);
+
+                expect(result).toEqual('<rootNode><leaf color="#aaaaaa"/><otherleaf/></rootNode>');
+            });
+        });
+
+        describe("Move", () => {
+            it(": move at index", () => {
+                     var patcher = new xmlatcher.XmlPatcher([
+                    {
+                        op: "move", from: "/rootNode/0", path: "/rootNode/1", value: "otherleaf"
+                    }
+                ], {});
+                var result = patcher.apply(source);
+
+                expect(result).toEqual('<rootNode><leaf color="#000000"/><leaf color="#aaaaaa"/></rootNode>');
+            });
+        });
+
+        describe("Delete", () => {
+            it(": delete at index", () => {
+                var patcher = new xmlatcher.XmlPatcher([
+                    {
+                        op: "delete", path: "/rootNode/1"
+                    }
+                ], {});
+                var result = patcher.apply(source);
+
+                expect(result).toEqual('<rootNode><leaf color="#000000"/></rootNode>');
+            });
+
+            it(": delete first", () => {
+                var patcher = new xmlatcher.XmlPatcher([
+                    {
+                        op: "delete", path: "/rootNode/0"
+                    }
+                ], {});
+                var result = patcher.apply(source);
+
+                expect(result).toEqual('<rootNode><leaf color="#aaaaaa"/></rootNode>');
+            });
+
+            it(": delete last", () => {
+                var patcher = new xmlatcher.XmlPatcher([
+                    {
+                        op: "delete", path: "/rootNode/-"
+                    }
+                ], {});
+                var result = patcher.apply(source);
+
+                expect(result).toEqual('<rootNode><leaf color="#000000"/></rootNode>');
+            });
+        });
+    });
+
     describe("Regression tests", () => {
         it(": test #22 find by attribute value is working properly", () => {
             var source =    '<?xml version="1.0" encoding="utf-8"?> \
