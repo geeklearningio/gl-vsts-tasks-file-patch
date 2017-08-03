@@ -4,7 +4,7 @@ var jsonPatch = require('fast-json-patch');
 
 export class JsonPatcher implements patch.IPatcher {
     constructor(
-        private patches: patch.IPatch[]
+        public patches: patch.IPatch[]
     ) {
     }
 

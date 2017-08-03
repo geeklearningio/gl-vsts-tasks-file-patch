@@ -219,7 +219,6 @@ describe("XML Patcher", () => {
                     }
                 ], {});
              var result = patcher.apply(source);
-             console.log(result);
              expect(result).not.toContain('#should_be_replaced#');
         });
     });
