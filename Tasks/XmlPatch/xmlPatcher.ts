@@ -5,9 +5,37 @@ import XRegExp = require('xregexp');
 
 export class XmlPatcher implements patch.IPatcher {
     constructor(
-        private patches: patch.IPatch[],
+        public patches: patch.IPatch[],
         private namespaces: { [tag: string]: string }
     ) {
+    }
+
+    detectArrayOperation(path: string): { path: string, isArrayOperation: boolean, append?: boolean, index?: number } {
+        var lastSlash = path.lastIndexOf('/');
+        var lastFragment = path.substr(lastSlash + 1);
+        var remainingPath = path.substr(0, lastSlash);
+
+        if (lastFragment == '-') {
+            return {
+                path: remainingPath,
+                isArrayOperation: true,
+                append: true
+            };
+        }
+
+        var isLastFragmentDigitOnly: string[] = XRegExp.match(lastFragment, /^\d+$/g);
+        if (isLastFragmentDigitOnly.length > 0) {
+            return {
+                path: remainingPath,
+                isArrayOperation: true,
+                index: parseInt(lastFragment)
+            };
+        }
+
+        return {
+            path: path,
+            isArrayOperation: false
+        };
     }
 
     getParentPath(path: string): { path: string, nodeName: string, isAttribute: boolean } {
@@ -26,12 +54,30 @@ export class XmlPatcher implements patch.IPatcher {
         return false;
     }
 
+    notsupported(patch: patch.IPatch): boolean {
+        console.log("operation not supported: " + patch.op + " " + patch.path);
+        return false;
+    }
+
     remove(xml: Document, select: any, patch: patch.IPatch): boolean {
+        var arrayOperation = this.detectArrayOperation(patch.path);
+        if (arrayOperation.isArrayOperation) {
+            if (arrayOperation.append) {
+                var node = <SVGSVGElement>select(arrayOperation.path, xml, true);
+                node.removeChild(node.lastChild);
+                return true;
+            } else {
+                var node = <SVGSVGElement>select(arrayOperation.path, xml, true);
+                node.removeChild(node.childNodes[arrayOperation.index]);
+                return true;
+            }
+        }
+
         var node = <SVGSVGElement>select(patch.path, xml, true);
         if (node) {
             var parentPath = this.getParentPath(patch.path);
             var parentNode = <SVGSVGElement>select(parentPath.path, xml, true);
-            if (parentPath.isAttribute){
+            if (parentPath.isAttribute) {
                 parentNode.removeAttribute(parentPath.nodeName);
             } else {
                 node.parentNode.removeChild(node);
@@ -43,14 +89,20 @@ export class XmlPatcher implements patch.IPatcher {
     }
 
     move(xml: Document, select: any, patch: patch.IPatch): boolean {
-        var fromNode = <SVGSVGElement>select(patch.from, xml, true);
-        var toNode = <SVGSVGElement>select(patch.path, xml, true);
-        if (fromNode) {
-            patch.value = fromNode.textContent;
-            this.remove(xml, select, { op: 'remove', path : patch.from });
-            return this.replace(xml, select, patch);
+        var arrayOperation = this.detectArrayOperation(patch.path);
+        var arrayOperationFrom = this.detectArrayOperation(patch.from);
+        if (arrayOperation.isArrayOperation || arrayOperationFrom.isArrayOperation) {
+            return this.notsupported(patch);
         } else {
-            return this.notfound(patch);
+            var fromNode = <SVGSVGElement>select(patch.from, xml, true);
+            var toNode = <SVGSVGElement>select(patch.path, xml, true);
+            if (fromNode) {
+                patch.value = fromNode.textContent;
+                this.remove(xml, select, { op: 'remove', path: patch.from });
+                return this.replace(xml, select, patch);
+            } else {
+                return this.notfound(patch);
+            }
         }
     }
 
@@ -66,6 +118,21 @@ export class XmlPatcher implements patch.IPatcher {
     }
 
     add(xml: Document, select: any, patch: patch.IPatch): boolean {
+        var arrayOperation = this.detectArrayOperation(patch.path);
+        if (arrayOperation.isArrayOperation) {
+            if (arrayOperation.append) {
+                var node = <SVGSVGElement>select(arrayOperation.path, xml, true);
+                var newNode = <HTMLElement>xml.createElement(patch.value);
+                node.appendChild(newNode);
+                return true;
+            } else {
+                var node = <SVGSVGElement>select(arrayOperation.path, xml, true);
+                var newNode = <HTMLElement>xml.createElement(patch.value);
+                node.insertBefore(newNode, node.childNodes[arrayOperation.index])
+                return true;
+            }
+        }
+
         var node = <SVGSVGElement>select(patch.path, xml, true);
         if (node) {
             node.textContent = patch.value;
@@ -92,18 +159,28 @@ export class XmlPatcher implements patch.IPatcher {
     }
 
     replace(xml: Document, select: any, patch: patch.IPatch): boolean {
-        var node = <SVGSVGElement>select(patch.path, xml, true);
-        if (node) {
-            var parentPath = this.getParentPath(patch.path);
-            var parentNode = <SVGSVGElement>select(parentPath.path, xml, true);
-            if (parentPath.isAttribute){
-                parentNode.setAttribute(parentPath.nodeName, patch.value);
-            } else {
-                 node.textContent = patch.value;
-            }
+        var arrayOperation = this.detectArrayOperation(patch.path);
+        if (arrayOperation.isArrayOperation) {
+            var node = <SVGSVGElement>select(arrayOperation.path, xml, true);
+            var childNode = node.childNodes[arrayOperation.index];
+            var newNode = <HTMLElement>xml.createElement(patch.value);
+            node.insertBefore(newNode, childNode)
+            node.removeChild(childNode);
             return true;
         } else {
-            return this.add(xml, select, patch);
+            var node = <SVGSVGElement>select(patch.path, xml, true);
+            if (node) {
+                var parentPath = this.getParentPath(patch.path);
+                var parentNode = <SVGSVGElement>select(parentPath.path, xml, true);
+                if (parentPath.isAttribute) {
+                    parentNode.setAttribute(parentPath.nodeName, patch.value);
+                } else {
+                    node.textContent = patch.value;
+                }
+                return true;
+            } else {
+                return this.add(xml, select, patch);
+            }
         }
     }
 
@@ -135,12 +212,12 @@ export class XmlPatcher implements patch.IPatcher {
             } else if (patch.op == 'test') {
                 operation = this.test.bind(this);
             }
-            
+
             if (!operation(xml, select, patch)) {
                 throw new Error("Failed to patch xml file");
             }
         }
-        
+
         return new xmldom.XMLSerializer().serializeToString(xml);
     }
 }

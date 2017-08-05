@@ -8,6 +8,7 @@ export interface IPatch{
 }
 
 export interface IPatcher {
+    patches: IPatch[];
     apply(content: string): string;
 }
 

@@ -24,6 +24,15 @@ export function apply(patcher: patch.IPatcher, workingDirectory: string, filters
     outputPatchedFile: boolean, failIfNoPatchApplied: boolean, skipErrors: boolean) {
     var files = matcher.getMatches(workingDirectory, filters);
 
+    for (var index = 0; index < patcher.patches.length; index++) {
+        var patch = patcher.patches[index];
+        if (patch.path && patch.path[0] != '/'
+            || patch.from && patch.from[0] != '/')
+        {
+            throw new Error("All path must start with a leading slash. Please verify patch at index " + String(index));
+        }
+    }
+
     tl.debug("Attempt to patch " + String(files.length) + "files");
 
     var filePatched = 0;
