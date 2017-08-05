@@ -35,10 +35,21 @@
   },
   "homepage": "https://github.com/geeklearningio/gl-vsts-tasks-azure/vsts-tasks",
   "devDependencies": {
+    "@types/fs-extra": "^4.0.0",
+    "@types/ini": "^1.3.29",
+    "@types/jasmine": "^2.5.53",
+    "@types/js-yaml": "^3.9.0",
+    "@types/micromatch": "^2.3.29",
+    "@types/node": "^8.0.19",
+    "@types/parse-glob": "^3.0.29",
+    "@types/q": "^1.0.3",
+    "@types/shelljs": "^0.7.4",
+    "@types/xmldom": "^0.1.29",
+    "@types/xregexp": "^3.0.29",
     "async": "2.5.0",
+    "gl-vsts-tasks-build-scripts": "0.4.0-alpha.1",
     "karma": "^1.1.2",
-    "npm-run-all": "4.0.2",
-    "gl-vsts-tasks-build-scripts": "0.3.1",
-    "modclean": "2.1.0"
+    "modclean": "2.1.0",
+    "npm-run-all": "4.0.2"
   }
 }
