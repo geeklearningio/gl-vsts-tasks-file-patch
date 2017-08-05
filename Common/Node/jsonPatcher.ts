@@ -19,7 +19,7 @@ export class JsonPatcher implements patch.IPatcher {
     apply(content: string): string {
         var json = this.parse(content);
         var prevalidate = jsonPatch.validate(this.patches, json);
-        var result = jsonPatch.apply(json, this.patches, false);
+        var result = jsonPatch.applyPatch(json, this.patches, false);
         if (result) {
             return this.stringify(json);
         } else {
