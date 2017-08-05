@@ -15,7 +15,6 @@ export class XmlPatcher implements patch.IPatcher {
         var lastFragment = path.substr(lastSlash + 1);
         var remainingPath = path.substr(0, lastSlash);
 
-        console.log(lastFragment);
         if (lastFragment == '-') {
             return {
                 path: remainingPath,
@@ -24,7 +23,8 @@ export class XmlPatcher implements patch.IPatcher {
             };
         }
 
-        if (XRegExp.match(lastFragment, /^\d+$/g)) {
+        var isLastFragmentDigitOnly: string[] = XRegExp.match(lastFragment, /^\d+$/g);
+        if (isLastFragmentDigitOnly.length > 0) {
             return {
                 path: remainingPath,
                 isArrayOperation: true,
