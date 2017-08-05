@@ -54,16 +54,17 @@ export class XmlPatcher implements patch.IPatcher {
         return false;
     }
 
+    notsupported(patch: patch.IPatch): boolean {
+        console.log("operation not supported: " + patch.op + " " + patch.path);
+        return false;
+    }
+
     remove(xml: Document, select: any, patch: patch.IPatch): boolean {
         var arrayOperation = this.detectArrayOperation(patch.path);
-        console.log(JSON.stringify(arrayOperation));
         if (arrayOperation.isArrayOperation) {
             if (arrayOperation.append) {
                 var node = <SVGSVGElement>select(arrayOperation.path, xml, true);
                 node.removeChild(node.lastChild);
-                console.log('arrayOperation.path');
-                console.log(node);
-                console.log('remove lastchild');
                 return true;
             } else {
                 var node = <SVGSVGElement>select(arrayOperation.path, xml, true);
@@ -88,14 +89,20 @@ export class XmlPatcher implements patch.IPatcher {
     }
 
     move(xml: Document, select: any, patch: patch.IPatch): boolean {
-        var fromNode = <SVGSVGElement>select(patch.from, xml, true);
-        var toNode = <SVGSVGElement>select(patch.path, xml, true);
-        if (fromNode) {
-            patch.value = fromNode.textContent;
-            this.remove(xml, select, { op: 'remove', path: patch.from });
-            return this.replace(xml, select, patch);
+        var arrayOperation = this.detectArrayOperation(patch.path);
+        var arrayOperationFrom = this.detectArrayOperation(patch.from);
+        if (arrayOperation.isArrayOperation || arrayOperationFrom.isArrayOperation) {
+            return this.notsupported(patch);
         } else {
-            return this.notfound(patch);
+            var fromNode = <SVGSVGElement>select(patch.from, xml, true);
+            var toNode = <SVGSVGElement>select(patch.path, xml, true);
+            if (fromNode) {
+                patch.value = fromNode.textContent;
+                this.remove(xml, select, { op: 'remove', path: patch.from });
+                return this.replace(xml, select, patch);
+            } else {
+                return this.notfound(patch);
+            }
         }
     }
 
@@ -112,18 +119,16 @@ export class XmlPatcher implements patch.IPatcher {
 
     add(xml: Document, select: any, patch: patch.IPatch): boolean {
         var arrayOperation = this.detectArrayOperation(patch.path);
-        console.log(JSON.stringify(arrayOperation));
         if (arrayOperation.isArrayOperation) {
             if (arrayOperation.append) {
                 var node = <SVGSVGElement>select(arrayOperation.path, xml, true);
-                var newNode = xml.createElement(patch.value);
+                var newNode = <HTMLElement>xml.createElement(patch.value);
                 node.appendChild(newNode);
                 return true;
             } else {
                 var node = <SVGSVGElement>select(arrayOperation.path, xml, true);
-                var newNode = xml.createElement(patch.value);
+                var newNode = <HTMLElement>xml.createElement(patch.value);
                 node.insertBefore(newNode, node.childNodes[arrayOperation.index])
-                node.appendChild(newNode);
                 return true;
             }
         }
@@ -154,18 +159,28 @@ export class XmlPatcher implements patch.IPatcher {
     }
 
     replace(xml: Document, select: any, patch: patch.IPatch): boolean {
-        var node = <SVGSVGElement>select(patch.path, xml, true);
-        if (node) {
-            var parentPath = this.getParentPath(patch.path);
-            var parentNode = <SVGSVGElement>select(parentPath.path, xml, true);
-            if (parentPath.isAttribute) {
-                parentNode.setAttribute(parentPath.nodeName, patch.value);
-            } else {
-                node.textContent = patch.value;
-            }
+        var arrayOperation = this.detectArrayOperation(patch.path);
+        if (arrayOperation.isArrayOperation) {
+            var node = <SVGSVGElement>select(arrayOperation.path, xml, true);
+            var childNode = node.childNodes[arrayOperation.index];
+            var newNode = <HTMLElement>xml.createElement(patch.value);
+            node.insertBefore(newNode, childNode)
+            node.removeChild(childNode);
             return true;
         } else {
-            return this.add(xml, select, patch);
+            var node = <SVGSVGElement>select(patch.path, xml, true);
+            if (node) {
+                var parentPath = this.getParentPath(patch.path);
+                var parentNode = <SVGSVGElement>select(parentPath.path, xml, true);
+                if (parentPath.isAttribute) {
+                    parentNode.setAttribute(parentPath.nodeName, patch.value);
+                } else {
+                    node.textContent = patch.value;
+                }
+                return true;
+            } else {
+                return this.add(xml, select, patch);
+            }
         }
     }
 
