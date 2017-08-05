@@ -25,7 +25,7 @@
             "name": "SyntaxType",
             "type": "pickList",
             "label": "Syntax type",
-            "defaultValue": "Standard",
+            "defaultValue": "slick",
             "required": true,
             "helpMarkDown": "The syntax used for the patch content. See documentation for more information.",
             "options": {
