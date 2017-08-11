@@ -67,9 +67,6 @@
             "addressable": true
         }
     ],
-    "CustomerQnASupport": {
-        "enableqna": "true"
-    },
     "repository": {
         "type": "git",
         "uri": "https://github.com/geeklearningio/gl-vsts-tasks-file-patch"
