@@ -20,7 +20,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/geeklearningio/gl-vsts-tasks-azure"
+    "url": "https://github.com/geeklearningio/gl-vsts-tasks-file-patch"
   },
   "keywords": [
     "VSTS",
@@ -31,9 +31,10 @@
   "author": "Geek Learning, Adrien Siffermann, Cyprien Autexier",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/geeklearningio/gl-vsts-tasks-azure/issues"
+    "url": "https://github.com/geeklearningio/gl-vsts-tasks-file-patch/issues"
   },
-  "homepage": "https://github.com/geeklearningio/gl-vsts-tasks-azure/vsts-tasks",
+
+  "homepage": "https://github.com/geeklearningio/gl-vsts-tasks-file-patch",
   "devDependencies": {
     "@types/fast-json-patch": "^1.1.5",
     "@types/fs-extra": "^4.0.0",

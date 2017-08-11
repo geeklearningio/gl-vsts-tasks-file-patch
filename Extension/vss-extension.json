@@ -66,5 +66,9 @@
             "path": "Screenshots",
             "addressable": true
         }
-    ]
+    ],
+    "CustomerQnASupport": {
+        "enableqna":"true",
+        "url": "https://github.com/geeklearningio/gl-vsts-tasks-file-patch/issues"
+    } 
 }
