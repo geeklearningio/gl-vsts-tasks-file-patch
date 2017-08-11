@@ -13,7 +13,7 @@ export class JsonPatcher implements patch.IPatcher {
     }
 
     protected stringify(content: any): string {
-        return JSON.stringify(content);
+        return JSON.stringify(content, null, 4);
     }
 
     apply(content: string): string {
