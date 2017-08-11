@@ -3,9 +3,9 @@ import fs = require('fs-extra');
 import tl = require('vsts-task-lib/task');
 import micromatch = require('micromatch');
 
-import patch = require('./common/patch');
 import patchProcess = require('./common/patchProcess');
 import plistPatcher = require('./plistPatcher');
+import { Operation } from 'fast-json-patch';
 
 var targetPath = tl.getPathInput("PlistWorkingDir");
 var patchContent = tl.getInput("PlistPatchContent");
@@ -17,7 +17,7 @@ var skipErrors = tl.getBoolInput("SkipErrors");
 var syntax = tl.getInput("SyntaxType");
 
 try {
-    var patches: patch.IPatch[] = syntax == "slick" ?
+    var patches: Operation[] = syntax == "slick" ?
         patchProcess.expandVariablesAndParseSlickPatch(patchContent) :
         patchProcess.expandVariablesAndParseJson(patchContent);
 

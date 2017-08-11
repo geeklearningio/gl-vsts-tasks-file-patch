@@ -14,7 +14,7 @@ describe("Whistespace support", () => {
         expect(patches.length).toEqual(1);
         expect(patches[0].op).toEqual('add');
         expect(patches[0].path).toEqual('/test/whatever');
-        expect(patches[0].value).toEqual('42');
+        expect((<any>patches[0]).value).toEqual('42');
     });
 
     it(": mutiline is supported", () => {
@@ -23,14 +23,14 @@ describe("Whistespace support", () => {
         expect(patches.length).toEqual(3);
         expect(patches[0].op).toEqual('add');
         expect(patches[0].path).toEqual('/test/whatever');
-        expect(patches[0].value).toEqual('42');
+        expect((<any>patches[0]).value).toEqual('42');
 
         expect(patches[1].op).toEqual('remove');
         expect(patches[1].path).toEqual('/test/whatever/toto/t');
 
         expect(patches[2].op).toEqual('add');
         expect(patches[2].path).toEqual('/test/answer');
-        expect(patches[2].value).toEqual('42');
+        expect((<any>patches[2]).value).toEqual('42');
     });
 });
 
@@ -41,7 +41,7 @@ describe("Add operation", () => {
         expect(patches.length).toEqual(1);
         expect(patches[0].op).toEqual('add');
         expect(patches[0].path).toEqual('/test/whatever');
-        expect(patches[0].value).toEqual('42');
+        expect((<any>patches[0]).value).toEqual('42');
     });
 });
 
@@ -62,7 +62,7 @@ describe("Replace operation", () => {
         expect(patches.length).toEqual(1);
         expect(patches[0].op).toEqual('replace');
         expect(patches[0].path).toEqual('/test/whatever');
-        expect(patches[0].value).toEqual('42');
+        expect((<any>patches[0]).value).toEqual('42');
     });
 });
 
@@ -72,7 +72,7 @@ describe("move operation", () => {
         var patches  = parser.parse('>/test/whatever=>/target/whatever');
         expect(patches.length).toEqual(1);
         expect(patches[0].op).toEqual('move');
-        expect(patches[0].from).toEqual('/test/whatever');
+        expect((<any>patches[0]).from).toEqual('/test/whatever');
         expect(patches[0].path).toEqual('/target/whatever');
     });
 });
@@ -83,7 +83,7 @@ describe("copy operation", () => {
         var patches  = parser.parse('&/test/whatever=>/target/whatever');
         expect(patches.length).toEqual(1);
         expect(patches[0].op).toEqual('copy');
-        expect(patches[0].from).toEqual('/test/whatever');
+        expect((<any>patches[0]).from).toEqual('/test/whatever');
         expect(patches[0].path).toEqual('/target/whatever');
     });
 });
@@ -95,6 +95,6 @@ describe("test operation", () => {
         expect(patches.length).toEqual(1);
         expect(patches[0].op).toEqual('test');
         expect(patches[0].path).toEqual('/test/whatever');
-        expect(patches[0].value).toEqual('42');
+        expect((<any>patches[0]).value).toEqual('42');
     });
 });

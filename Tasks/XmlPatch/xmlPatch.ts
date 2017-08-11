@@ -2,9 +2,9 @@ import path = require('path');
 import fs = require('fs-extra');
 import tl = require('vsts-task-lib/task');
 
-import patch = require('./common/patch');
 import patchProcess = require('./common/patchProcess');
 import xmlPatcher = require('./xmlPatcher');
+import { Operation } from 'fast-json-patch';
 
 interface IPatch{
     op: string;
@@ -26,7 +26,7 @@ try {
         xmlPatcher.loadNamespaces(tl.getInput("Namespaces")) : 
         (namespaces ? JSON.parse(tl.getInput("Namespaces")) : {});
 
-    var patches: patch.IPatch[] = syntax == "slick" ? 
+    var patches: Operation[] = syntax == "slick" ? 
     patchProcess.expandVariablesAndParseSlickPatch(patchContent) :
     patchProcess.expandVariablesAndParseJson(patchContent);
 

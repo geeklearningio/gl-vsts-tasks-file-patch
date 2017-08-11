@@ -1,10 +1,10 @@
 import patch = require('./patch');
 
-var jsonPatch = require('fast-json-patch');
+import jsonPatch = require('fast-json-patch');
 
 export class JsonPatcher implements patch.IPatcher {
     constructor(
-        public patches: patch.IPatch[]
+        public patches: jsonPatch.Operation[]
     ) {
     }
 
@@ -18,7 +18,13 @@ export class JsonPatcher implements patch.IPatcher {
 
     apply(content: string): string {
         var json = this.parse(content);
-        var prevalidate = jsonPatch.validate(this.patches, json);
+        var patchError = jsonPatch.validate(this.patches, json);
+
+        if(patchError){
+            throw new Error("Invalid patch at index `" + String(patchError.index) + "`: " + patchError.name
+            + "\n" + patchError.message);
+        }
+
         var result = jsonPatch.applyPatch(json, this.patches, false);
         if (result) {
             return this.stringify(json);

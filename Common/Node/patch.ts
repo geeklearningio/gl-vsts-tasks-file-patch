@@ -1,20 +1,14 @@
 import XRegExp = require('xregexp');
-
-export interface IPatch{
-    op: string;
-    path: string;
-    value?: any;
-    from?: string;
-}
+import { Operation } from 'fast-json-patch';
 
 export interface IPatcher {
-    patches: IPatch[];
+    patches: Operation[];
     apply(content: string): string;
 }
 
 export class SlickPatchParser {
-    parse(sourcePatch: string): IPatch[] {
-        var result: IPatch[] = [];
+    parse(sourcePatch: string): Operation[] {
+        var result: Operation[] = [];
 
         XRegExp.forEach(sourcePatch, XRegExp('^\\s*(?<op>\\+|-|=|&|>|\\?)\\s*(?<path>.*?)\\s*(=>\\s*(?<value>.*))?$','gm'), (match) => {
             var op = (<any>match).op;

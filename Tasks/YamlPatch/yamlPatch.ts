@@ -4,9 +4,9 @@ import tl = require('vsts-task-lib/task');
 import micromatch = require('micromatch');
 import jsYaml = require('js-yaml');
 
-import patch = require('./common/patch');
 import patchProcess = require('./common/patchProcess');
 import yamlPatcher = require('./yamlPatcher');
+import { Operation } from 'fast-json-patch';
 
 var targetPath = tl.getPathInput("YamlWorkingDir");
 var patchContent = tl.getInput("YamlPatchContent");
@@ -18,7 +18,7 @@ var skipErrors = tl.getBoolInput("SkipErrors");
 var syntax = tl.getInput("SyntaxType");
 
 try {
-    var patches: patch.IPatch[] = syntax == "slick" ?
+    var patches: Operation[] = syntax == "slick" ?
         patchProcess.expandVariablesAndParseSlickPatch(patchContent) :
         patchProcess.expandVariablesAndParseJson(patchContent);
 

@@ -2,15 +2,23 @@ import patch = require('./common/patch');
 import xpath = require('xpath');
 import xmldom = require('xmldom');
 import XRegExp = require('xregexp');
+import { Operation } from 'fast-json-patch';
+
+interface IPatch{
+    op: string;
+    path: string;
+    value?: any;
+    from?: string;
+}
 
 export class XmlPatcher implements patch.IPatcher {
     constructor(
-        public patches: patch.IPatch[],
+        public patches: Operation[],
         private namespaces: { [tag: string]: string }
     ) {
     }
 
-    detectArrayOperation(path: string): { path: string, isArrayOperation: boolean, append?: boolean, index?: number } {
+    private detectArrayOperation(path: string): { path: string, isArrayOperation: boolean, append?: boolean, index?: number } {
         var lastSlash = path.lastIndexOf('/');
         var lastFragment = path.substr(lastSlash + 1);
         var remainingPath = path.substr(0, lastSlash);
@@ -38,7 +46,7 @@ export class XmlPatcher implements patch.IPatcher {
         };
     }
 
-    getParentPath(path: string): { path: string, nodeName: string, isAttribute: boolean } {
+    private getParentPath(path: string): { path: string, nodeName: string, isAttribute: boolean } {
         var lastSlash = path.lastIndexOf('/');
         var nodeName = path.substr(lastSlash + 1);
         var isAttribute = nodeName[0] == '@';
@@ -49,17 +57,17 @@ export class XmlPatcher implements patch.IPatcher {
         };
     }
 
-    notfound(patch: patch.IPatch): boolean {
+    private notfound(patch: IPatch): boolean {
         console.log(patch.path + " was not found");
         return false;
     }
 
-    notsupported(patch: patch.IPatch): boolean {
+    private notsupported(patch: IPatch): boolean {
         console.log("operation not supported: " + patch.op + " " + patch.path);
         return false;
     }
 
-    remove(xml: Document, select: any, patch: patch.IPatch): boolean {
+    private remove(xml: Document, select: any, patch: IPatch): boolean {
         var arrayOperation = this.detectArrayOperation(patch.path);
         if (arrayOperation.isArrayOperation) {
             if (arrayOperation.append) {
@@ -88,7 +96,7 @@ export class XmlPatcher implements patch.IPatcher {
         }
     }
 
-    move(xml: Document, select: any, patch: patch.IPatch): boolean {
+    private move(xml: Document, select: any, patch: IPatch): boolean {
         var arrayOperation = this.detectArrayOperation(patch.path);
         var arrayOperationFrom = this.detectArrayOperation(patch.from);
         if (arrayOperation.isArrayOperation || arrayOperationFrom.isArrayOperation) {
@@ -106,7 +114,7 @@ export class XmlPatcher implements patch.IPatcher {
         }
     }
 
-    copy(xml: Document, select: any, patch: patch.IPatch): boolean {
+    private copy(xml: Document, select: any, patch: IPatch): boolean {
         var fromNode = <SVGSVGElement>select(patch.from, xml, true);
         var toNode = <SVGSVGElement>select(patch.path, xml, true);
         if (fromNode) {
@@ -117,7 +125,7 @@ export class XmlPatcher implements patch.IPatcher {
         }
     }
 
-    add(xml: Document, select: any, patch: patch.IPatch): boolean {
+    private add(xml: Document, select: any, patch: IPatch): boolean {
         var arrayOperation = this.detectArrayOperation(patch.path);
         if (arrayOperation.isArrayOperation) {
             if (arrayOperation.append) {
@@ -158,7 +166,7 @@ export class XmlPatcher implements patch.IPatcher {
         }
     }
 
-    replace(xml: Document, select: any, patch: patch.IPatch): boolean {
+    private replace(xml: Document, select: any, patch: IPatch): boolean {
         var arrayOperation = this.detectArrayOperation(patch.path);
         if (arrayOperation.isArrayOperation) {
             var node = <SVGSVGElement>select(arrayOperation.path, xml, true);
@@ -184,7 +192,7 @@ export class XmlPatcher implements patch.IPatcher {
         }
     }
 
-    test(xml: Document, select: any, patch: patch.IPatch): boolean {
+    private test(xml: Document, select: any, patch: IPatch): boolean {
         var node = <SVGSVGElement>select(patch.path, xml, true);
         if (node && node.textContent == patch.value) {
             return true;
@@ -198,7 +206,7 @@ export class XmlPatcher implements patch.IPatcher {
         var select = xpath.useNamespaces(this.namespaces);
         for (var index = 0; index < this.patches.length; index++) {
             var patch = this.patches[index];
-            var operation: (xml: any, select: any, patch: patch.IPatch) => boolean = (xml, select, patch) => false;
+            var operation: (xml: any, select: any, patch: Operation) => boolean = (xml, select, patch) => false;
             if (patch.op == 'replace') {
                 operation = this.replace.bind(this);
             } else if (patch.op == 'add') {

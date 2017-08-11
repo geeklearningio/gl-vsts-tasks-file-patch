@@ -1,11 +1,12 @@
 import jsonPatcher = require('./common/jsonPatcher');
-import patch = require('./common/patch');
-var JSON5 = require('json5');
+import { Operation } from 'fast-json-patch';
+
+import JSON5 = require('json5');
 
 export class Json5Patcher extends jsonPatcher.JsonPatcher {
 
     constructor(
-        patches: patch.IPatch[],
+        patches: Operation[],
         private outputJson5: boolean
     ) {
         super(patches);

@@ -3,10 +3,10 @@ import fs = require('fs-extra');
 import tl = require('vsts-task-lib/task');
 import micromatch = require('micromatch');
 
-import patch = require('./common/patch');
 import patchProcess = require('./common/patchProcess');
 import jsonPatcher = require('./common/jsonPatcher');
 import json5Patcher = require('./json5Patcher');
+import { Operation } from 'fast-json-patch';
 
 var targetPath = tl.getPathInput("JsonWorkingDir");
 var patchContent = tl.getInput("JsonPatchContent");
@@ -20,7 +20,7 @@ var useJson5 = tl.getBoolInput("UseJson5");
 var produceJson5 = tl.getBoolInput("ProduceJson5");
 
 try {
-    var patches: patch.IPatch[] = syntax == "slick" ? 
+    var patches: Operation[] = syntax == "slick" ? 
     patchProcess.expandVariablesAndParseSlickPatch(patchContent) :
     patchProcess.expandVariablesAndParseJson(patchContent);
 

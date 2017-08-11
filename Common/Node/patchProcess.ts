@@ -4,6 +4,7 @@ import matcher = require('./shared/multimatch');
 import tl = require('vsts-task-lib/task');
 import fs = require('fs');
 import * as sh from 'shelljs';
+import { Operation } from 'fast-json-patch';
 
 var slickPatchParser = new patch.SlickPatchParser();
 var varRegex = /\$\((.*?)\)/g;
@@ -12,11 +13,11 @@ function expandVariable(str: string) {
     return str.replace(varRegex, (match, varName, offset, string) => tl.getVariable(varName));
 }
 
-export function expandVariablesAndParseJson(patchContent: string): patch.IPatch[] {
+export function expandVariablesAndParseJson(patchContent: string): Operation[] {
     return JSON.parse(expandVariable(patchContent));
 }
 
-export function expandVariablesAndParseSlickPatch(patchContent: string): patch.IPatch[] {
+export function expandVariablesAndParseSlickPatch(patchContent: string): Operation[] {
     return slickPatchParser.parse(expandVariable(patchContent));
 }
 
@@ -27,7 +28,7 @@ export function apply(patcher: patch.IPatcher, workingDirectory: string, filters
     for (var index = 0; index < patcher.patches.length; index++) {
         var patch = patcher.patches[index];
         if (patch.path && patch.path[0] != '/'
-            || patch.from && patch.from[0] != '/')
+            || (<any>patch).from && (<any>patch).from[0] != '/')
         {
             throw new Error("All path must start with a leading slash. Please verify patch at index " + String(index));
         }
