@@ -22,7 +22,7 @@ export class JsonPatcher implements patch.IPatcher {
 
         if(patchError){
             throw new Error("Invalid patch at index `" + String(patchError.index) + "`: " + patchError.name
-            + "\n" + patchError.message);
+            + ", " + patchError.message);
         }
 
         var result = jsonPatch.applyPatch(json, this.patches, false);
