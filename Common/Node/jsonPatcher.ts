@@ -21,10 +21,10 @@ export class JsonPatcher implements patch.IPatcher {
         var patchError = jsonPatch.validate(this.patches, json);
 
         if(patchError){
-            tl.warning("Invalid patch at index `" + String(patchError.index) + "`");
-            tl.warning(patch.SlickPatchParser.stringify(patchError.operation));
-            tl.warning(patchError.name);
-            tl.warning(patchError.message);
+            tl.warning("Invalid patch at index `" + String(patchError.index) + "`" + '\n' +
+            patch.SlickPatchParser.stringify(patchError.operation)+ '\n' +
+            patchError.name+ '\n' +
+            patchError.message);
             throw new Error("Invalid patch at index `" + String(patchError.index) + "`: " + patchError.name
             + ", " + patchError.message);
         }
