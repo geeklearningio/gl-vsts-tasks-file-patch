@@ -7,51 +7,69 @@ export interface IPatcher {
 }
 
 export class SlickPatchParser {
+
+    static stringify(operation: Operation): string {
+        if (operation.op == "add") {
+            return "+ " + operation.path + " => " + JSON.stringify(operation.value);
+        } else if (operation.op == "remove") {
+            return "- " + operation.path;
+        } else if (operation.op == "replace") {
+            return "= " + operation.path + " => " + JSON.stringify(operation.value);
+        } else if (operation.op == "copy") {
+            return "+ " + operation.from + " => " + operation.path;
+        } else if (operation.op == "move") {
+            return "+ " + operation.from + " => " + operation.path;
+        } else if (operation.op == "test") {
+            return "+ " + operation.path + " => " + JSON.stringify(operation.value);
+        }
+        return "Unknown operation";
+    }
+
     parse(sourcePatch: string): Operation[] {
         var result: Operation[] = [];
 
-        XRegExp.forEach(sourcePatch, XRegExp('^\\s*(?<op>\\+|-|=|&|>|\\?)\\s*(?<path>.*?)\\s*(=>\\s*(?<value>.*))?$','gm'), (match) => {
+        XRegExp.forEach(sourcePatch, XRegExp('^\\s*(?<op>\\+|-|=|&|>|\\?)\\s*(?<path>.*?)\\s*(=>\\s*(?<value>.*))?$', 'gm'), (match) => {
             var op = (<any>match).op;
-            if (op == "+"){
+            if (op == "+") {
                 result.push({
-                    op : "add",
-                    path : (<any>match).path,
-                    value : JSON.parse((<any>match).value)
+                    op: "add",
+                    path: (<any>match).path,
+                    value: JSON.parse((<any>match).value)
                 });
-            } else if (op == "-") { 
+            } else if (op == "-") {
                 result.push({
-                    op : "remove",
-                    path : (<any>match).path
+                    op: "remove",
+                    path: (<any>match).path
                 });
-            } else if (op == "=") { 
+            } else if (op == "=") {
                 result.push({
-                    op : "replace",
-                    path : (<any>match).path,
-                    value : JSON.parse((<any>match).value)
+                    op: "replace",
+                    path: (<any>match).path,
+                    value: JSON.parse((<any>match).value)
                 });
-            } else if (op == "&") { 
+            } else if (op == "&") {
                 result.push({
-                    op : "copy",
-                    path : (<any>match).value,
-                    from : (<any>match).path
+                    op: "copy",
+                    path: (<any>match).value,
+                    from: (<any>match).path
                 });
-            } else if (op == ">") { 
+            } else if (op == ">") {
                 result.push({
-                    op : "move",
-                    path : (<any>match).value,
-                    from : (<any>match).path
+                    op: "move",
+                    path: (<any>match).value,
+                    from: (<any>match).path
                 });
-            } else if (op == "?") { 
+            } else if (op == "?") {
                 result.push({
-                    op : "test",
-                    path : (<any>match).path,
-                    value : JSON.parse((<any>match).value)
+                    op: "test",
+                    path: (<any>match).path,
+                    value: JSON.parse((<any>match).value)
                 });
             } else {
                 throw new Error("operator " + op + " is no supported.");
             }
         });
 
-        return  result;
+        return result;
     }
 }

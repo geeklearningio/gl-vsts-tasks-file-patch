@@ -61,7 +61,7 @@ export function apply(patcher: patch.IPatcher, workingDirectory: string, filters
             filePatched++;
         }
         catch (err) {
-            tl.warning(String(err));
+            tl.debug(String(err));
             tl.warning("Couldn't apply patch to file: " + file);
             errors++;
         }

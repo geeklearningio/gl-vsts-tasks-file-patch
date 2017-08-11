@@ -1,5 +1,5 @@
 import patch = require('./patch');
-
+import tl = require('vsts-task-lib/task');
 import jsonPatch = require('fast-json-patch');
 
 export class JsonPatcher implements patch.IPatcher {
@@ -21,6 +21,10 @@ export class JsonPatcher implements patch.IPatcher {
         var patchError = jsonPatch.validate(this.patches, json);
 
         if(patchError){
+            tl.warning("Invalid patch at index `" + String(patchError.index) + "`");
+            tl.warning(patch.SlickPatchParser.stringify(patchError.operation));
+            tl.warning(patchError.name);
+            tl.warning(patchError.message);
             throw new Error("Invalid patch at index `" + String(patchError.index) + "`: " + patchError.name
             + ", " + patchError.message);
         }
