@@ -3,18 +3,18 @@
     "id": "gl-vsts-tasks-file-patch",
     "name": "File Patch Build and Release Tasks",
     "version": "0.0.0",
-    "publisher": "geeklearningio",    
+    "publisher": "geeklearningio",
     "targets": [
         {
             "id": "Microsoft.VisualStudio.Services"
         }
-    ],    
+    ],
     "description": "Update files using JSON patch and similar syntax with these Build and Release Management tasks.",
     "categories": [
         "Build and release"
     ],
     "icons": {
-        "default": "extension-icon.png"        
+        "default": "extension-icon.png"
     },
     "tags": [
         "json",
@@ -57,7 +57,7 @@
     "branding": {
         "color": "#008B8B",
         "theme": "dark"
-    },  
+    },
     "files": [
         {
             "path": "Tasks"
@@ -68,7 +68,10 @@
         }
     ],
     "CustomerQnASupport": {
-        "enableqna":"true",
-        "url": "https://github.com/geeklearningio/gl-vsts-tasks-file-patch/issues"
-    } 
+        "enableqna": "true"
+    },
+    "repository": {
+        "type": "git",
+        "uri": "https://github.com/geeklearningio/gl-vsts-tasks-file-patch"
+    }
 }
