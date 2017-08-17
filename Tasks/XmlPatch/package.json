@@ -8,7 +8,7 @@
     "xmldom": "0.1.27",
     "xpath": "0.0.24",
     "xregexp": "3.2.0",
-    "vsts-task-lib": "2.0.6",
+    "vsts-task-lib": "2.0.7",
     "shelljs": "0.7.8"
   }
 }

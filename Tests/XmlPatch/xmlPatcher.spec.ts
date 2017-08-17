@@ -221,5 +221,36 @@ describe("XML Patcher", () => {
              var result = patcher.apply(source);
              expect(result).not.toContain('#should_be_replaced#');
         });
+
+         it(": test #22 replace a node which does not exists should operate as a successful add operation", () => {
+            var source =   `<Project Sdk="Microsoft.NET.Sdk.Web">
+                                <PropertyGroup>
+                                    <TargetFramework>netcoreapp1.1</TargetFramework>
+                                    <DebugType>portable</DebugType>
+                                    <PreserveCompilationContext>true</PreserveCompilationContext>
+                                    <AssemblyName>A.Assembly.Name</AssemblyName>
+                                    <OutputType>Exe</OutputType>
+                                    <PackageId>A.Assembly.Name</PackageId>
+                                    <PackageTargetFallback>$(PackageTargetFallback);portable-net45+win8;dnxcore50</PackageTargetFallback>
+                                    <TypeScriptCompileBlocked>True</TypeScriptCompileBlocked>
+                                </PropertyGroup>
+
+                                <ItemGroup>
+                                    <!--Files not to show in IDE-->
+                                    <Content Remove="wwwroot\lib_node_modules\**" />
+                                    <Content Remove="node_modules\**" />
+                                    <None Update="Views\**\*">
+                                    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+                                    </None>
+                                </ItemGroup>
+                            </Project>`;
+             var patcher = new xmlatcher.XmlPatcher([
+                    {
+                        op: "replace", path: "/Project/PropertyGroup/VersionPrefix", value : "#a_version#"
+                    }
+                ], {});
+             var result = patcher.apply(source);
+             expect(result).toContain('#a_version#');
+        });
     });
 });

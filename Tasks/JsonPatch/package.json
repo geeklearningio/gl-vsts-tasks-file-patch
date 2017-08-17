@@ -7,8 +7,8 @@
     "micromatch": "^2.3.0",
     "fast-json-patch": "2.0.4",
     "xregexp": "3.2.0",
-    "vsts-task-lib": "2.0.6",
-    "json5" : "0.5.1",
+    "vsts-task-lib": "2.0.7",
+    "json5": "0.5.1",
     "shelljs": "0.7.8"
   }
 }
