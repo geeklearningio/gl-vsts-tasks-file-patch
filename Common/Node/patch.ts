@@ -34,7 +34,7 @@ export class SlickPatchParser {
                 result.push({
                     op: "add",
                     path: (<any>match).path,
-                    value: JSON.parse((<any>match).value)
+                    value: this.parseValue(match)
                 });
             } else if (op == "-") {
                 result.push({
@@ -45,7 +45,7 @@ export class SlickPatchParser {
                 result.push({
                     op: "replace",
                     path: (<any>match).path,
-                    value: JSON.parse((<any>match).value)
+                    value: this.parseValue(match)
                 });
             } else if (op == "&") {
                 result.push({
@@ -63,7 +63,7 @@ export class SlickPatchParser {
                 result.push({
                     op: "test",
                     path: (<any>match).path,
-                    value: JSON.parse((<any>match).value)
+                    value: this.parseValue(match)
                 });
             } else {
                 throw new Error("operator " + op + " is no supported.");
@@ -71,5 +71,13 @@ export class SlickPatchParser {
         });
 
         return result;
+    }
+
+    private parseValue(match: RegExpExecArray) : any {
+        try {
+            return JSON.parse((<any>match).value);
+        } catch (error) {
+            throw new Error("Failed to parse value at line " + String(match.index) + ": `"+ match.input +"`, " + String(error));
+        }
     }
 }

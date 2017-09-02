@@ -10,7 +10,7 @@ var str = '+ /test/whatever/toto =>   "42"\n= /test/whatever/toto/grade => 0\n- 
 describe("Whistespace support", () => {
     it(": whitespaces can be safely added anywhere.", () => {
         var parser = new patch.SlickPatchParser();
-        var patches  = parser.parse('  +    /test/whatever \t => "42" ');
+        var patches = parser.parse('  +    /test/whatever \t => "42" ');
         expect(patches.length).toEqual(1);
         expect(patches[0].op).toEqual('add');
         expect(patches[0].path).toEqual('/test/whatever');
@@ -19,7 +19,7 @@ describe("Whistespace support", () => {
 
     it(": mutiline is supported", () => {
         var parser = new patch.SlickPatchParser();
-        var patches  = parser.parse('+    /test/whatever \t => "42" \n - /test/whatever/toto/t \n+    /test/answer \t => "42"');
+        var patches = parser.parse('+    /test/whatever \t => "42" \n - /test/whatever/toto/t \n+    /test/answer \t => "42"');
         expect(patches.length).toEqual(3);
         expect(patches[0].op).toEqual('add');
         expect(patches[0].path).toEqual('/test/whatever');
@@ -37,7 +37,7 @@ describe("Whistespace support", () => {
 describe("Add operation", () => {
     it("an add operation is properly parsed", () => {
         var parser = new patch.SlickPatchParser();
-        var patches  = parser.parse('+/test/whatever=>"42"');
+        var patches = parser.parse('+/test/whatever=>"42"');
         expect(patches.length).toEqual(1);
         expect(patches[0].op).toEqual('add');
         expect(patches[0].path).toEqual('/test/whatever');
@@ -48,7 +48,7 @@ describe("Add operation", () => {
 describe("Remove operation", () => {
     it("an remove operation is properly parsed", () => {
         var parser = new patch.SlickPatchParser();
-        var patches  = parser.parse('-/test/whatever=>"42"');
+        var patches = parser.parse('-/test/whatever=>"42"');
         expect(patches.length).toEqual(1);
         expect(patches[0].op).toEqual('remove');
         expect(patches[0].path).toEqual('/test/whatever');
@@ -58,7 +58,7 @@ describe("Remove operation", () => {
 describe("Replace operation", () => {
     it("an replace operation is properly parsed", () => {
         var parser = new patch.SlickPatchParser();
-        var patches  = parser.parse('=/test/whatever=>"42"');
+        var patches = parser.parse('=/test/whatever=>"42"');
         expect(patches.length).toEqual(1);
         expect(patches[0].op).toEqual('replace');
         expect(patches[0].path).toEqual('/test/whatever');
@@ -69,7 +69,7 @@ describe("Replace operation", () => {
 describe("move operation", () => {
     it("an move operation is properly parsed", () => {
         var parser = new patch.SlickPatchParser();
-        var patches  = parser.parse('>/test/whatever=>/target/whatever');
+        var patches = parser.parse('>/test/whatever=>/target/whatever');
         expect(patches.length).toEqual(1);
         expect(patches[0].op).toEqual('move');
         expect((<any>patches[0]).from).toEqual('/test/whatever');
@@ -80,7 +80,7 @@ describe("move operation", () => {
 describe("copy operation", () => {
     it("an copy operation is properly parsed", () => {
         var parser = new patch.SlickPatchParser();
-        var patches  = parser.parse('&/test/whatever=>/target/whatever');
+        var patches = parser.parse('&/test/whatever=>/target/whatever');
         expect(patches.length).toEqual(1);
         expect(patches[0].op).toEqual('copy');
         expect((<any>patches[0]).from).toEqual('/test/whatever');
@@ -91,10 +91,22 @@ describe("copy operation", () => {
 describe("test operation", () => {
     it("an test operation is properly parsed", () => {
         var parser = new patch.SlickPatchParser();
-        var patches  = parser.parse('?/test/whatever=>"42"');
+        var patches = parser.parse('?/test/whatever=>"42"');
         expect(patches.length).toEqual(1);
         expect(patches[0].op).toEqual('test');
         expect(patches[0].path).toEqual('/test/whatever');
         expect((<any>patches[0]).value).toEqual('42');
+    });
+});
+
+describe("Invalid Json", () => {
+    it("a copy operation is properly parsed", () => {
+        var parser = new patch.SlickPatchParser();
+        var invalidJsonPatch = '=/test/whatever=>"dggkdg\\000t"';
+        
+
+        expect(() => {
+            var patches = parser.parse(invalidJsonPatch);
+        }).toThrowError(/Failed to parse/);
     });
 });

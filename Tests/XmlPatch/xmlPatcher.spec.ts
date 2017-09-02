@@ -252,5 +252,54 @@ describe("XML Patcher", () => {
              var result = patcher.apply(source);
              expect(result).toContain('#a_version#');
         });
+
+        it(": test #40", () => {
+            var source = `<?xml version="1.0" encoding="UTF-8"?>
+                            <RunSettings>
+                            <TestRunParameters>
+
+                                <Parameter name="dbRestoreSource"                value="snapshot" />
+
+                                <Parameter name="webServer"                      value="RPZMV961527" />
+                                <Parameter name="dbServer"                       value="RPZMV961527" />
+                                <Parameter name="dbInstanceName"                 value="" />
+                                <Parameter name="dbUsername"                     value="" />
+                                <Parameter name="dbPassword"                     value="" />
+                                <Parameter name="testBrowser"                    value="chrome" />
+                                <Parameter name="testOutDir"                     value="00_satlogs\" />
+
+                                <Parameter name="applicationRootDirectory"       value="." />
+                                <Parameter name="applicationPath"                value=".\; .\Release\; .\Debug\" />
+
+                            </TestRunParameters>
+
+                            <RunConfiguration>
+                                <ResultsDirectory>.\tst</ResultsDirectory>
+                            </RunConfiguration>
+                            <MSTest>
+                                <DeleteDeploymentDirectoryAfterTestRunIsComplete>False</DeleteDeploymentDirectoryAfterTestRunIsComplete>
+                                <DeploymentEnabled>False</DeploymentEnabled>
+                                <SettingsFile>.\AutomatedCodedUI.testsettings</SettingsFile>
+                                <!--<ForcedLegacyMode>true</ForcedLegacyMode>-->
+                                <AssemblyResolution>
+                                <Directory Path="%ProgramFiles%\Microsoft Visual Studio 14.0\Common7\IDE\PublicAssemblies\" includeSubDirectories="true" />
+                                <Directory Path="%ProgramFiles%\Microsoft Visual Studio 14.0\Common7\IDE\PrivateAssemblies\" includeSubDirectories="true" />
+                                </AssemblyResolution>
+                            </MSTest>
+                            </RunSettings>
+                            `;
+
+                               var patcher = new xmlatcher.XmlPatcher([
+                    {
+                        op: "replace", path: "//Parameter[@name='testOutDir']/@value", value : "#an_outDir#"
+                    },
+                    {
+                        op: "replace", path: "//Parameter[@name='applicationRootDirectory']/@value", value : "#an_appRoot#"
+                    }
+                ], {});
+             var result = patcher.apply(source);
+             expect(result).toContain('#an_outDir#');
+             expect(result).toContain('#an_appRoot#');
+        });
     });
 });
