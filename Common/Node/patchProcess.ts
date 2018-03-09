@@ -22,7 +22,7 @@ export function expandVariablesAndParseSlickPatch(patchContent: string): Operati
 }
 
 export function apply(patcher: patch.IPatcher, workingDirectory: string, filters: string,
-    outputPatchedFile: boolean, failIfNoPatchApplied: boolean, skipErrors: boolean) {
+    outputPatchedFile: boolean, failIfNoPatchApplied: boolean, treatErrors: string) {
     var files = matcher.getMatches(workingDirectory, filters);
 
     for (var index = 0; index < patcher.patches.length; index++) {
@@ -62,22 +62,55 @@ export function apply(patcher: patch.IPatcher, workingDirectory: string, filters
         }
         catch (err) {
             tl.debug(String(err));
-            tl.warning("Couldn't apply patch to file: " + file);
-            errors++;
+
+            /* NONE means it never happened. */
+            if (treatErrors != "NONE") {
+                errors++;
+
+                var msg = "Couldn't apply patch to file: " + file;
+
+                if (treatErrors == "ERROR") {
+                    tl.error(msg);
+                } else if (treatErrors == "WARN") {
+                    tl.warning(msg);
+                } else if (treatErrors == "INFO") {
+                    tl.debug(msg);
+                }
+            }
         }
-
     }
+
     if (!files.length) {
-        tl.warning("Patch was not applied because there are no file is matching the provided patterns in the specified directory");
+        var msg = "Patch was not applied because there are no files matching the provided patterns in the specified directory";
+        
+        if (treatErrors == "ERROR") {
+            tl.error(msg);
+        } else if (treatErrors == "WARN") {
+            tl.warning(msg);
+        } else if (treatErrors == "INFO") {
+            tl.debug(msg);
+        }
     }
 
-    tl.debug(String(filePatched) + " files patched successfully and " + String(errors) + " errors.")
+    var msg = String(filePatched) + " files patched successfully";
+
+    if (errors > 0) {
+        if (treatErrors == "ERROR") {
+            msg += " and " + String(errors) + " errors.";
+        } else if (treatErrors == "WARN") {
+            msg += " and " + String(errors) + " warnings.";
+        } else if (treatErrors == "INFO") {
+            msg += " and " + String(errors) + " messages.";
+        }
+    }
+
+    tl.debug(msg);
 
     if (failIfNoPatchApplied && filePatched === 0) {
-        tl.setResult(tl.TaskResult.Failed, "No files have been successfully patched");
-    } else if (!skipErrors && errors > 0) {
-        tl.setResult(tl.TaskResult.Failed, "Failed to patch all files successfully");
+        tl.setResult(tl.TaskResult.Failed, "No files were patched.");
+    } else if (treatErrors == "ERROR" && errors > 0) {
+        tl.setResult(tl.TaskResult.Failed, "Failed to successfully patch one or more files.");
     } else {
-        tl.setResult(tl.TaskResult.Succeeded, "Files Patched");
+        tl.setResult(tl.TaskResult.Succeeded, "Files patched.");
     }
 }

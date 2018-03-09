@@ -72,16 +72,23 @@
         {
             "name": "FailIfNoPatchApplied",
             "type": "boolean",
-            "label": "Fail if no files is patched.",
+            "label": "Fail if no files are patched",
             "defaultValue": "false",
-            "helpMarkDown": "Fail if no files is patched."
+            "helpMarkDown": "Fail if no files are patched."
         },
         {
-            "name": "SkipErrors",
-            "type": "boolean",
-            "label": "Ignore patch errors",
-            "defaultValue": "false",
-            "helpMarkDown": "Ignore patch errors and treat them as warnings"
+            "name": "TreatErrors",
+            "type": "pickList",
+            "label": "Treat errors as",
+            "defaultValue": "ERROR",
+            "required": true,
+            "helpMarkDown": "Treat patch errors as errors, warnings, information, or nothing at all.",
+            "options": {
+                "ERROR": "errors",
+                "WARN": "warnings",
+                "INFO": "information",
+                "NOTHING": "nothing"
+            }
         }
     ],
     "execution": {
