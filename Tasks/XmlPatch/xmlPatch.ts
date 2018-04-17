@@ -16,7 +16,7 @@ var targetPath = tl.getPathInput("XmlWorkingDir");
 var patchContent = tl.getInput("JsonPatchContent");
 var outputPatchedFile = tl.getBoolInput("OutputPatchFile");
 var failIfNoPatchApplied = tl.getBoolInput("FailIfNoPatchApplied");
-var skipErrors = tl.getBoolInput("SkipErrors");
+var treatErrors = tl.getInput("TreatErrors");
 var syntax = tl.getInput("SyntaxType");
 
 var patterns: any = tl.getInput("XmlTargetFilters")
@@ -30,7 +30,7 @@ try {
     patchProcess.expandVariablesAndParseSlickPatch(patchContent) :
     patchProcess.expandVariablesAndParseJson(patchContent);
 
-    patchProcess.apply(new xmlPatcher.XmlPatcher(patches, namespaces), targetPath, patterns, outputPatchedFile, failIfNoPatchApplied, skipErrors);
+    patchProcess.apply(new xmlPatcher.XmlPatcher(patches, namespaces), targetPath, patterns, outputPatchedFile, failIfNoPatchApplied, treatErrors);
 
 } catch (err) {
     console.error(String(err));

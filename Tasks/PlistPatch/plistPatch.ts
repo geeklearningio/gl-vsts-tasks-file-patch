@@ -13,7 +13,7 @@ var patchContent = tl.getInput("PlistPatchContent");
 var patterns: any = tl.getInput("PlistTargetFilters")
 var outputPatchedFile = tl.getBoolInput("OutputPatchFile");
 var failIfNoPatchApplied = tl.getBoolInput("FailIfNoPatchApplied");
-var skipErrors = tl.getBoolInput("SkipErrors");
+var treatErrors = tl.getInput("TreatErrors");
 var syntax = tl.getInput("SyntaxType");
 
 try {
@@ -21,7 +21,7 @@ try {
         patchProcess.expandVariablesAndParseSlickPatch(patchContent) :
         patchProcess.expandVariablesAndParseJson(patchContent);
 
-    patchProcess.apply(new plistPatcher.PlistPatcher(patches), targetPath, patterns, outputPatchedFile, failIfNoPatchApplied, skipErrors);
+    patchProcess.apply(new plistPatcher.PlistPatcher(patches), targetPath, patterns, outputPatchedFile, failIfNoPatchApplied, treatErrors);
 
 } catch (err) {
     console.error(String(err));
