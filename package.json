@@ -52,6 +52,7 @@
     "gl-vsts-tasks-build-scripts": "0.4.0-alpha.1",
     "karma": "^1.1.2",
     "modclean": "2.1.0",
-    "npm-run-all": "4.0.2"
+    "npm-run-all": "4.0.2",
+    "typescript" : "2.8.1"
   }
 }
