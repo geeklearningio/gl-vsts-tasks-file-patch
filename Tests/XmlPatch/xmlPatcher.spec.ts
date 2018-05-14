@@ -120,6 +120,32 @@ describe("XML Patcher", () => {
                 expect(result).toEqual('<rootNode><leaf color="#bbbbbb"/><leaf color="#aaaaaa"/><leaf color="#000000"/></rootNode>');
             });
 
+            it(": should prepend", () => {
+                var patcher = new xmlatcher.XmlPatcher([
+                    {
+                        op: "add", path: "/rootNode/0", value: "myns:anode"
+                    }, {
+                        op: "replace", path: "/rootNode/myns:anode[1]/@color", value: "#bbbbbb"
+                    }
+                ], {"myns" : "http://example.com"});
+                var result = patcher.apply(source);
+
+                expect(result).toEqual('<rootNode><myns:anode color="#bbbbbb" xmlns:myns="http://example.com"/><leaf color="#aaaaaa"/><leaf color="#000000"/></rootNode>');
+            });
+
+            it(": should prepend and set attributes from an object", () => {
+                var patcher = new xmlatcher.XmlPatcher([
+                    {
+                        op: "add", path: "/rootNode/0", value: "leaf"
+                    }, {
+                        op: "replace", path: "/rootNode/leaf[1]", value: { "@color": "#bbbbbb" }
+                    }
+                ], {});
+                var result = patcher.apply(source);
+
+                expect(result).toEqual('<rootNode><leaf color="#bbbbbb"/><leaf color="#aaaaaa"/><leaf color="#000000"/></rootNode>');
+            });
+
             it(": should add at index", () => {
                 var patcher = new xmlatcher.XmlPatcher([
                     {

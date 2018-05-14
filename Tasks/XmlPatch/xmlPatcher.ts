@@ -19,7 +19,20 @@ export class XmlPatcher implements patch.IPatcher {
     ) {
     }
 
-    private transformObject(obj: any, target: Element) {
+    public createNode(xml: Document, parsedName: { name: string, namespace: string | null, localName: string }) {
+        let newNode: Element;
+
+        if (parsedName.namespace) {
+            newNode = xml.createElementNS(parsedName.namespace, parsedName.name);
+
+        } else {
+            newNode = xml.createElement(parsedName.localName);
+        }
+
+        return newNode;
+    }
+
+    private transformObject(xml: Document, obj: any, target: Element) {
         if (typeof obj === 'object') {
             for (const key in obj) {
                 if (obj.hasOwnProperty(key)) {
@@ -27,7 +40,9 @@ export class XmlPatcher implements patch.IPatcher {
                     if (key[0] === '@') {
                         target.setAttribute(key.substr(1), element);
                     } else {
-                        // should recursively add
+                        let node = this.createNode(xml, this.detectNamespace(key));
+                        target.appendChild(node);
+                        this.transformObject(xml, element, node);
                     }
                 }
             }
@@ -64,17 +79,19 @@ export class XmlPatcher implements patch.IPatcher {
         };
     }
 
-    private detectNamespace(nodeName: string): { namespace: string | null, localName: string } {
+    private detectNamespace(nodeName: string): { name: string, namespace: string | null, localName: string } {
         var colon = nodeName.lastIndexOf(':');
 
         if (colon > 0) {
             return {
+                name: nodeName,
                 namespace: this.namespaces[nodeName.substr(0, colon)],
                 localName: nodeName.substr(colon + 1)
             };
         }
 
         return {
+            name: nodeName,
             namespace: null,
             localName: nodeName
         };
@@ -160,16 +177,17 @@ export class XmlPatcher implements patch.IPatcher {
     }
 
     private add(xml: Document, select: any, patch: IPatch): boolean {
-        var arrayOperation = this.detectArrayOperation(patch.path);
+        let arrayOperation = this.detectArrayOperation(patch.path);
         if (arrayOperation.isArrayOperation) {
+            let parsedName = this.detectNamespace(patch.value);
             if (arrayOperation.append) {
-                var node = <SVGSVGElement>select(arrayOperation.path, xml, true);
-                var newNode = <HTMLElement>xml.createElement(patch.value);
+                let node = <SVGSVGElement>select(arrayOperation.path, xml, true);
+                let newNode = this.createNode(xml, parsedName);
                 node.appendChild(newNode);
                 return true;
             } else {
-                var node = <SVGSVGElement>select(arrayOperation.path, xml, true);
-                var newNode = <HTMLElement>xml.createElement(patch.value);
+                let node = <SVGSVGElement>select(arrayOperation.path, xml, true);
+                let newNode = this.createNode(xml, parsedName);
                 node.insertBefore(newNode, node.childNodes[arrayOperation.index])
                 return true;
             }
@@ -177,7 +195,8 @@ export class XmlPatcher implements patch.IPatcher {
 
         var node = <SVGSVGElement>select(patch.path, xml, true);
         if (node) {
-            node.textContent = patch.value;
+            this.transformObject(xml, patch.value, node);
+            //node.textContent = patch.value;
             return true;
         } else {
             var lastSlash = patch.path.lastIndexOf('/');
@@ -190,14 +209,8 @@ export class XmlPatcher implements patch.IPatcher {
                     node.setAttribute(newNodeName.substr(1), patch.value);
                     return true;
                 } else {
-                    let newNode: Element;
-                    if (parsedName.namespace) {
-                        newNode = xml.createElementNS(parsedName.namespace, newNodeName);
-
-                    } else {
-                        newNode = xml.createElement(parsedName.localName);
-                    }
-                    this.transformObject(patch.value, newNode);
+                    let newNode = this.createNode(xml, parsedName);
+                    this.transformObject(xml, patch.value, newNode);
                     //newNode.textContent =  patch.value;
                     node.appendChild(newNode);
                     return true;
@@ -213,7 +226,7 @@ export class XmlPatcher implements patch.IPatcher {
         if (arrayOperation.isArrayOperation) {
             var node = <SVGSVGElement>select(arrayOperation.path, xml, true);
             var childNode = node.childNodes[arrayOperation.index];
-            var newNode = <HTMLElement>xml.createElement(patch.value);
+            var newNode = this.createNode(xml, this.detectNamespace(patch.value));
             node.insertBefore(newNode, childNode)
             node.removeChild(childNode);
             return true;
@@ -225,7 +238,8 @@ export class XmlPatcher implements patch.IPatcher {
                 if (parentPath.isAttribute) {
                     parentNode.setAttribute(parentPath.nodeName, patch.value);
                 } else {
-                    node.textContent = patch.value;
+                    this.transformObject(xml, patch.value, node);
+                    //node.textContent = patch.value;
                 }
                 return true;
             } else {
