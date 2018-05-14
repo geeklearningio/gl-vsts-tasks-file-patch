@@ -267,6 +267,18 @@ describe("XML Patcher", () => {
 
                 expect(result).toEqual('<myns:rootNode xmlns:myns="http://example.com"><myns:newNode>10</myns:newNode></myns:rootNode>');
             });
+
+            it(": should support attribute namespace", () => {
+                source = '<myns:rootNode xmlns:myns="http://example.com"></myns:rootNode>';
+                var patcher = new xmlatcher.XmlPatcher([
+                    {
+                        op: "add", path: "myns:rootNode/myns:newNode", value: { "@myns:attr" : "10"}
+                    }
+                ], namespaces);
+                var result = patcher.apply(source);
+
+                expect(result).toEqual('<myns:rootNode xmlns:myns="http://example.com"><myns:newNode myns:attr="10"/></myns:rootNode>');
+            });
         });
 
     });

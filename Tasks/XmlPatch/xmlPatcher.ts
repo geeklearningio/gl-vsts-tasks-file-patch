@@ -206,7 +206,12 @@ export class XmlPatcher implements patch.IPatcher {
             node = <SVGSVGElement>select(parentPath, xml, true);
             if (node) {
                 if (newNodeName[0] == '@') {
-                    node.setAttribute(newNodeName.substr(1), patch.value);
+                    let attributeName = this.detectNamespace(newNodeName);
+                    if (attributeName.namespace) {
+                        node.setAttributeNS(attributeName.namespace, attributeName.name, patch.value);
+                    } else {
+                        node.setAttribute(newNodeName.substr(1), patch.value);
+                    }
                     return true;
                 } else {
                     let newNode = this.createNode(xml, parsedName);
