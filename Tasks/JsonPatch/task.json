@@ -1,5 +1,6 @@
 {
     "id": "DEEAA603-DA23-43AB-A099-33AEFE358520",
+    "preview": true,
     "name": "JsonPatch",
     "friendlyName": "Patch JSON Files",
     "description": "Patch JSON files using JSON patch syntax",
