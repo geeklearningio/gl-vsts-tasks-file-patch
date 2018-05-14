@@ -23,6 +23,17 @@ describe("XML Patcher", () => {
 
                 expect(result).toEqual('<rootNode><name>a name</name><childNode size="10"><leaf color="#aaaaaa"/><leaf color="#000000"/></childNode><newNode newAttribute="42">10</newNode></rootNode>');
             });
+
+            it(": should support basic add to properties at once.", () => {
+                var patcher = new xmlatcher.XmlPatcher([
+                    {
+                        op: "add", path: "/rootNode/newNode", value: { "@name": "aname", "@value": "avalue"}
+                    }, 
+                ], {});
+                var result = patcher.apply(source);
+
+                expect(result).toEqual('<rootNode><name>a name</name><childNode size="10"><leaf color="#aaaaaa"/><leaf color="#000000"/></childNode><newNode name="aname" value="avalue"/></rootNode>');
+            });
         });
 
 
@@ -213,10 +224,10 @@ describe("XML Patcher", () => {
                     {
                         op: "add", path: "myns:rootNode/myns:newNode", value: "10"
                     }
-                ], {});
+                ], namespaces);
                 var result = patcher.apply(source);
 
-                expect(result).toEqual('<rootNode xmlns="http://example.com"><newNode>10</newNode></rootNode>');
+                expect(result).toEqual('<rootNode xmlns="http://example.com"><myns:newNode xmlns:myns="http://example.com">10</myns:newNode></rootNode>');
             });
 
             it(": should support basic add with explicit namespace", () => {
@@ -225,10 +236,10 @@ describe("XML Patcher", () => {
                     {
                         op: "add", path: "myns:rootNode/myns:newNode", value: "10"
                     }
-                ], {});
+                ], namespaces);
                 var result = patcher.apply(source);
 
-                expect(result).toEqual('<myns:rootNode xmlns="http://example.com"><myns:newNode>10</myns:newNode></myns:rootNode>');
+                expect(result).toEqual('<myns:rootNode xmlns:myns="http://example.com"><myns:newNode>10</myns:newNode></myns:rootNode>');
             });
         });
 
