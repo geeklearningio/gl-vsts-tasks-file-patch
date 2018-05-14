@@ -90,7 +90,7 @@ describe("XML Patcher", () => {
 
     describe("Array operation tests", () => {
         var source: string;
-        
+
         beforeEach(function () {
             source = '<rootNode><leaf color="#aaaaaa"/><leaf color="#000000"/></rootNode>';
         });
@@ -100,7 +100,7 @@ describe("XML Patcher", () => {
                 var patcher = new xmlatcher.XmlPatcher([
                     {
                         op: "add", path: "/rootNode/0", value: "leaf"
-                    },{
+                    }, {
                         op: "replace", path: "/rootNode/leaf[1]/@color", value: "#bbbbbb"
                     }
                 ], {});
@@ -113,7 +113,7 @@ describe("XML Patcher", () => {
                 var patcher = new xmlatcher.XmlPatcher([
                     {
                         op: "add", path: "/rootNode/1", value: "leaf"
-                    },{
+                    }, {
                         op: "replace", path: "/rootNode/leaf[2]/@color", value: "#bbbbbb"
                     }
                 ], {});
@@ -126,7 +126,7 @@ describe("XML Patcher", () => {
                 var patcher = new xmlatcher.XmlPatcher([
                     {
                         op: "add", path: "/rootNode/-", value: "leaf"
-                    },{
+                    }, {
                         op: "replace", path: "/rootNode/leaf[last()]/@color", value: "#bbbbbb"
                     }
                 ], {});
@@ -151,9 +151,9 @@ describe("XML Patcher", () => {
 
         describe("Move", () => {
             xit(": move at index", () => {
-                     var patcher = new xmlatcher.XmlPatcher([
+                var patcher = new xmlatcher.XmlPatcher([
                     {
-                        op: "move", from: "/rootNode/0", path: "/rootNode/1", value: "otherleaf"
+                        op: "move", from: "/rootNode/0", path: "/rootNode/1"
                     }
                 ], {});
                 var result = patcher.apply(source);
@@ -198,9 +198,45 @@ describe("XML Patcher", () => {
         });
     });
 
+    describe("Namespaced tests", () => {
+        var source: string;
+        var namespaces: { [key: string]: string };
+
+        beforeEach(function () {
+            namespaces = { "myns": "http://example.com" };
+            source = '<rootNode xmlns="http://example.com"></rootNode>';
+        });
+
+        describe("Add", () => {
+            it(": should support basic add with default namespace", () => {
+                var patcher = new xmlatcher.XmlPatcher([
+                    {
+                        op: "add", path: "myns:rootNode/myns:newNode", value: "10"
+                    }
+                ], {});
+                var result = patcher.apply(source);
+
+                expect(result).toEqual('<rootNode xmlns="http://example.com"><newNode>10</newNode></rootNode>');
+            });
+
+            it(": should support basic add with explicit namespace", () => {
+                source = '<myns:rootNode xmlns:myns="http://example.com"></myns:rootNode>';
+                var patcher = new xmlatcher.XmlPatcher([
+                    {
+                        op: "add", path: "myns:rootNode/myns:newNode", value: "10"
+                    }
+                ], {});
+                var result = patcher.apply(source);
+
+                expect(result).toEqual('<myns:rootNode xmlns="http://example.com"><myns:newNode>10</myns:newNode></myns:rootNode>');
+            });
+        });
+
+    });
+
     describe("Regression tests", () => {
         it(": test #22 find by attribute value is working properly", () => {
-            var source =    '<?xml version="1.0" encoding="utf-8"?> \
+            var source = '<?xml version="1.0" encoding="utf-8"?> \
                             <configuration> \
                             <connectionStrings> \
                                 <add name="db" connectionString="Data Source=local_dev;Database=Internal_DEV;Type System Version=SQL Server 2012;User ID=someone;Password=something;Persist Security Info=True" providerName="System.Data.SqlClient" /> \
@@ -213,17 +249,17 @@ describe("XML Patcher", () => {
                                 <add key="SuperUser" value="#should_be_replaced#" /> \
                             </appSettings> \
                             </configuration>';
-             var patcher = new xmlatcher.XmlPatcher([
-                    {
-                        op: "replace", path: "/configuration/appSettings/add[@key='SuperUser']/@value", value : "a value"
-                    }
-                ], {});
-             var result = patcher.apply(source);
-             expect(result).not.toContain('#should_be_replaced#');
+            var patcher = new xmlatcher.XmlPatcher([
+                {
+                    op: "replace", path: "/configuration/appSettings/add[@key='SuperUser']/@value", value: "a value"
+                }
+            ], {});
+            var result = patcher.apply(source);
+            expect(result).not.toContain('#should_be_replaced#');
         });
 
-         it(": test #22 replace a node which does not exists should operate as a successful add operation", () => {
-            var source =   `<Project Sdk="Microsoft.NET.Sdk.Web">
+        it(": test #22 replace a node which does not exists should operate as a successful add operation", () => {
+            var source = `<Project Sdk="Microsoft.NET.Sdk.Web">
                                 <PropertyGroup>
                                     <TargetFramework>netcoreapp1.1</TargetFramework>
                                     <DebugType>portable</DebugType>
@@ -244,13 +280,13 @@ describe("XML Patcher", () => {
                                     </None>
                                 </ItemGroup>
                             </Project>`;
-             var patcher = new xmlatcher.XmlPatcher([
-                    {
-                        op: "replace", path: "/Project/PropertyGroup/VersionPrefix", value : "#a_version#"
-                    }
-                ], {});
-             var result = patcher.apply(source);
-             expect(result).toContain('#a_version#');
+            var patcher = new xmlatcher.XmlPatcher([
+                {
+                    op: "replace", path: "/Project/PropertyGroup/VersionPrefix", value: "#a_version#"
+                }
+            ], {});
+            var result = patcher.apply(source);
+            expect(result).toContain('#a_version#');
         });
 
         it(": test #40", () => {
@@ -289,17 +325,17 @@ describe("XML Patcher", () => {
                             </RunSettings>
                             `;
 
-                               var patcher = new xmlatcher.XmlPatcher([
-                    {
-                        op: "replace", path: "//Parameter[@name='testOutDir']/@value", value : "#an_outDir#"
-                    },
-                    {
-                        op: "replace", path: "//Parameter[@name='applicationRootDirectory']/@value", value : "#an_appRoot#"
-                    }
-                ], {});
-             var result = patcher.apply(source);
-             expect(result).toContain('#an_outDir#');
-             expect(result).toContain('#an_appRoot#');
+            var patcher = new xmlatcher.XmlPatcher([
+                {
+                    op: "replace", path: "//Parameter[@name='testOutDir']/@value", value: "#an_outDir#"
+                },
+                {
+                    op: "replace", path: "//Parameter[@name='applicationRootDirectory']/@value", value: "#an_appRoot#"
+                }
+            ], {});
+            var result = patcher.apply(source);
+            expect(result).toContain('#an_outDir#');
+            expect(result).toContain('#an_appRoot#');
         });
     });
 });
