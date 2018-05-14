@@ -3,8 +3,9 @@ import xpath = require('xpath');
 import xmldom = require('xmldom');
 import XRegExp = require('xregexp');
 import { Operation } from 'fast-json-patch';
+import { ENGINE_METHOD_ECDH, ENETDOWN } from 'constants';
 
-interface IPatch{
+interface IPatch {
     op: string;
     path: string;
     value?: any;
@@ -16,6 +17,23 @@ export class XmlPatcher implements patch.IPatcher {
         public patches: Operation[],
         private namespaces: { [tag: string]: string }
     ) {
+    }
+
+    private transformObject(obj: any, target: Element) {
+        if (typeof obj === 'object') {
+            for (const key in obj) {
+                if (obj.hasOwnProperty(key)) {
+                    const element = obj[key];
+                    if (key[0] === '@') {
+                        target.setAttribute(key.substr(1), element);
+                    } else {
+                        // should recursively add
+                    }
+                }
+            }
+        } else {
+            target.textContent = obj;
+        }
     }
 
     private detectArrayOperation(path: string): { path: string, isArrayOperation: boolean, append?: boolean, index?: number } {
@@ -43,6 +61,22 @@ export class XmlPatcher implements patch.IPatcher {
         return {
             path: path,
             isArrayOperation: false
+        };
+    }
+
+    private detectNamespace(nodeName: string): { namespace: string | null, localName: string } {
+        var colon = nodeName.lastIndexOf(':');
+
+        if (colon > 0) {
+            return {
+                namespace: this.namespaces[nodeName.substr(0, colon)],
+                localName: nodeName.substr(colon + 1)
+            };
+        }
+
+        return {
+            namespace: null,
+            localName: nodeName
         };
     }
 
@@ -149,14 +183,22 @@ export class XmlPatcher implements patch.IPatcher {
             var lastSlash = patch.path.lastIndexOf('/');
             var parentPath = patch.path.substr(0, lastSlash);
             var newNodeName = patch.path.substr(lastSlash + 1);
+            var parsedName = this.detectNamespace(newNodeName);
             node = <SVGSVGElement>select(parentPath, xml, true);
             if (node) {
                 if (newNodeName[0] == '@') {
                     node.setAttribute(newNodeName.substr(1), patch.value);
                     return true;
                 } else {
-                    var newNode = xml.createElement(newNodeName);
-                    newNode.textContent = patch.value;
+                    let newNode: Element;
+                    if (parsedName.namespace) {
+                        newNode = xml.createElementNS(parsedName.namespace, newNodeName);
+
+                    } else {
+                        newNode = xml.createElement(parsedName.localName);
+                    }
+                    this.transformObject(patch.value, newNode);
+                    //newNode.textContent =  patch.value;
                     node.appendChild(newNode);
                     return true;
                 }

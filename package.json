@@ -15,8 +15,7 @@
     "package": "vsts-build-tools-package",
     "pullsubmodules": "git submodule foreach git pull origin master",
     "build:test": "run-s build test",
-    "test": "jasmine JASMINE_CONFIG_PATH=./Tests/jasmine.json",
-    "test:chutzpah": "chutzpah.console ./Tests"
+    "test": "jasmine JASMINE_CONFIG_PATH=./Tests/jasmine.json"
   },
   "repository": {
     "type": "git",
@@ -53,6 +52,6 @@
     "karma": "^1.1.2",
     "modclean": "2.1.0",
     "npm-run-all": "4.0.2",
-    "typescript" : "2.8.1"
+    "typescript": "2.8.1"
   }
 }

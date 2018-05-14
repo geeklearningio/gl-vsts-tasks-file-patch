@@ -1,5 +1,6 @@
 {
     "id": "599b994d-c4e1-4e74-b58e-0cd3006e5aac",
+    "preview": true,
     "name": "YamlPatch",
     "friendlyName": "Patch YAML Files",
     "description": "Patch YAML files using JSON patch syntax",
