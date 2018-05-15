@@ -40,7 +40,7 @@ export class XmlPatcher implements patch.IPatcher {
                     if (key[0] === '@') {
                         target.setAttribute(key.substr(1), element);
                     } else {
-                        let node = this.createNode(xml, this.detectNamespace(key));
+                        let node = this.createNode(xml, this.detectNamespace(xml, key));
                         target.appendChild(node);
                         this.transformObject(xml, element, node);
                     }
@@ -79,15 +79,36 @@ export class XmlPatcher implements patch.IPatcher {
         };
     }
 
-    private detectNamespace(nodeName: string): { name: string, namespace: string | null, localName: string } {
+    private detectNamespace(xml: Document, nodeName: string): { name: string, namespace: string | null, localName: string } {
         var colon = nodeName.lastIndexOf(':');
 
         if (colon > 0) {
-            return {
-                name: nodeName,
-                namespace: this.namespaces[nodeName.substr(0, colon)],
-                localName: nodeName.substr(colon + 1)
-            };
+            const namespace = this.namespaces[nodeName.substr(0, colon)];
+            const localName = nodeName.substr(colon + 1);
+
+            const defaultNamespace = xml.documentElement.lookupNamespaceURI('');
+            const existingPrefix = xml.documentElement.lookupPrefix(namespace);
+
+
+            if (defaultNamespace === namespace) {
+                return {
+                    name: localName,
+                    namespace: namespace,
+                    localName: localName
+                };
+            } else if (existingPrefix !== null) {
+                return {
+                    name: existingPrefix + ':' + localName,
+                    namespace: namespace,
+                    localName: localName
+                };
+            } else {
+                return {
+                    name: nodeName,
+                    namespace: namespace,
+                    localName: nodeName.substr(colon + 1)
+                };
+            }
         }
 
         return {
@@ -179,7 +200,7 @@ export class XmlPatcher implements patch.IPatcher {
     private add(xml: Document, select: any, patch: IPatch): boolean {
         let arrayOperation = this.detectArrayOperation(patch.path);
         if (arrayOperation.isArrayOperation) {
-            let parsedName = this.detectNamespace(patch.value);
+            let parsedName = this.detectNamespace(xml, patch.value);
             if (arrayOperation.append) {
                 let node = <SVGSVGElement>select(arrayOperation.path, xml, true);
                 let newNode = this.createNode(xml, parsedName);
@@ -202,11 +223,11 @@ export class XmlPatcher implements patch.IPatcher {
             var lastSlash = patch.path.lastIndexOf('/');
             var parentPath = patch.path.substr(0, lastSlash);
             var newNodeName = patch.path.substr(lastSlash + 1);
-            var parsedName = this.detectNamespace(newNodeName);
+            var parsedName = this.detectNamespace(xml, newNodeName);
             node = <SVGSVGElement>select(parentPath, xml, true);
             if (node) {
                 if (newNodeName[0] == '@') {
-                    let attributeName = this.detectNamespace(newNodeName);
+                    let attributeName = this.detectNamespace(xml, newNodeName);
                     if (attributeName.namespace) {
                         node.setAttributeNS(attributeName.namespace, attributeName.name, patch.value);
                     } else {
@@ -231,7 +252,7 @@ export class XmlPatcher implements patch.IPatcher {
         if (arrayOperation.isArrayOperation) {
             var node = <SVGSVGElement>select(arrayOperation.path, xml, true);
             var childNode = node.childNodes[arrayOperation.index];
-            var newNode = this.createNode(xml, this.detectNamespace(patch.value));
+            var newNode = this.createNode(xml, this.detectNamespace(xml, patch.value));
             node.insertBefore(newNode, childNode)
             node.removeChild(childNode);
             return true;

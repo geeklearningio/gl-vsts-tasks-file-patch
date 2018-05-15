@@ -253,8 +253,9 @@ describe("XML Patcher", () => {
                 ], namespaces);
                 var result = patcher.apply(source);
 
-                expect(result).toEqual('<rootNode xmlns="http://example.com"><myns:newNode xmlns:myns="http://example.com">10</myns:newNode></rootNode>');
+                expect(result).toEqual('<rootNode xmlns="http://example.com"><newNode>10</newNode></rootNode>');
             });
+            
 
             it(": should support basic add with explicit namespace", () => {
                 source = '<myns:rootNode xmlns:myns="http://example.com"></myns:rootNode>';
@@ -266,6 +267,18 @@ describe("XML Patcher", () => {
                 var result = patcher.apply(source);
 
                 expect(result).toEqual('<myns:rootNode xmlns:myns="http://example.com"><myns:newNode>10</myns:newNode></myns:rootNode>');
+            });
+
+            it(": should support basic add with explicit namespace but different tag in xpath", () => {
+                source = '<mynsorig:rootNode xmlns:mynsorig="http://example.com"></mynsorig:rootNode>';
+                var patcher = new xmlatcher.XmlPatcher([
+                    {
+                        op: "add", path: "myns:rootNode/myns:newNode", value: "10"
+                    }
+                ], namespaces);
+                var result = patcher.apply(source);
+
+                expect(result).toEqual('<mynsorig:rootNode xmlns:mynsorig="http://example.com"><mynsorig:newNode>10</mynsorig:newNode></mynsorig:rootNode>');
             });
 
             it(": should support attribute namespace", () => {
