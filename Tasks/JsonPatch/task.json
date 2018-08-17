@@ -1,6 +1,5 @@
 {
     "id": "DEEAA603-DA23-43AB-A099-33AEFE358520",
-    "preview": true,
     "name": "JsonPatch",
     "friendlyName": "Patch JSON Files",
     "description": "Patch JSON files using JSON patch syntax",
@@ -17,7 +16,6 @@
         "Patch": 0
     },
     "demands": [
-        "npm"
     ],
     "minimumAgentVersion": "1.91.0",
     "instanceNameFormat": "Patch files $(JsonTargetFilters)",

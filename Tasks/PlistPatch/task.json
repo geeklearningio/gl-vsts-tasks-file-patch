@@ -1,6 +1,5 @@
 {
     "id": "599b994d-c4e1-4e74-b58e-0cd3006e5aac",
-    "preview": true,
     "name": "PlistPatch",
     "friendlyName": "Patch Plist Files",
     "description": "Patch Plist files using JSON patch syntax",
@@ -17,7 +16,6 @@
         "Patch": 0
     },
     "demands": [
-        "npm"
     ],
     "minimumAgentVersion": "1.91.0",
     "instanceNameFormat": "Patch files $(PlistTargetFilters)",

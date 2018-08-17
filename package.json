@@ -48,8 +48,8 @@
     "@types/xmldom": "^0.1.29",
     "@types/xregexp": "^3.0.29",
     "async": "2.5.0",
-    "gl-vsts-tasks-build-scripts": "0.4.0-alpha.1",
-    "karma": "^1.1.2",
+    "gl-vsts-tasks-build-scripts": "0.4.1",
+    "karma": "^3.0.0",
     "modclean": "2.1.0",
     "npm-run-all": "4.0.2",
     "typescript": "2.8.1"
