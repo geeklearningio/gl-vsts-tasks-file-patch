@@ -15,8 +15,7 @@
     "package": "vsts-build-tools-package",
     "pullsubmodules": "git submodule foreach git pull origin master",
     "build:test": "run-s build test",
-    "test": "jasmine JASMINE_CONFIG_PATH=./Tests/jasmine.json",
-    "test:chutzpah": "chutzpah.console ./Tests"
+    "test": "jasmine JASMINE_CONFIG_PATH=./Tests/jasmine.json"
   },
   "repository": {
     "type": "git",
