@@ -1,27 +1,24 @@
-import path = require("path");
-import fs = require("fs-extra");
-import tl = require("azure-pipelines-task-lib/task");
-import micromatch = require("micromatch");
+import * as tl from 'azure-pipelines-task-lib/task';
 
-import patchProcess = require("./common/patchProcess");
-import jsonPatcher = require("./common/jsonPatcher");
-import json5Patcher = require("./json5Patcher");
-import { Operation } from "fast-json-patch";
+import patchProcess = require('./common/patchProcess');
+import jsonPatcher = require('./common/jsonPatcher');
+import json5Patcher = require('./json5Patcher');
+import { Operation } from 'fast-json-patch';
 
-var targetPath = tl.getPathInput("JsonWorkingDir");
-var patchContent = tl.getInput("JsonPatchContent");
+var targetPath = tl.getPathInput('JsonWorkingDir');
+var patchContent = tl.getInput('JsonPatchContent');
 
-var patterns: any = tl.getInput("JsonTargetFilters");
-var outputPatchedFile = tl.getBoolInput("OutputPatchFile");
-var failIfNoPatchApplied = tl.getBoolInput("FailIfNoPatchApplied");
-var treatErrors = tl.getInput("TreatErrors");
-var syntax = tl.getInput("SyntaxType");
-var useJson5 = tl.getBoolInput("UseJson5");
-var produceJson5 = tl.getBoolInput("ProduceJson5");
+var patterns: any = tl.getInput('JsonTargetFilters');
+var outputPatchedFile = tl.getBoolInput('OutputPatchFile');
+var failIfNoPatchApplied = tl.getBoolInput('FailIfNoPatchApplied');
+var treatErrors = tl.getInput('TreatErrors');
+var syntax = tl.getInput('SyntaxType');
+var useJson5 = tl.getBoolInput('UseJson5');
+var produceJson5 = tl.getBoolInput('ProduceJson5');
 
 try {
   var patches: Operation[] =
-    syntax == "slick"
+    syntax == 'slick'
       ? patchProcess.expandVariablesAndParseSlickPatch(patchContent)
       : patchProcess.expandVariablesAndParseJson(patchContent);
 
