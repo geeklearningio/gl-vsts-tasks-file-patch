@@ -1,113 +1,109 @@
 {
-    "id": "DEEAA603-DA23-43AB-A099-33AEFE358520",
-    "name": "JsonPatch",
-    "friendlyName": "Patch JSON Files",
-    "description": "Patch JSON files using JSON patch syntax",
-    "helpMarkDown": "[More Information](https://github.com/geeklearningio/gl-vsts-tasks-file-patch/wiki/Patch-JSON-Files) (Version #{Version}#)",    
-    "category": "Utility",
-    "visibility": [
-        "Build",
-        "Release"
-    ],
-    "author": "Geek Learning",
-    "version": {
-        "Major": 0,
-        "Minor": 0,
-        "Patch": 0
+  "id": "DEEAA603-DA23-43AB-A099-33AEFE358520",
+  "name": "JsonPatch",
+  "friendlyName": "Patch JSON Files",
+  "description": "Patch JSON files using JSON patch syntax",
+  "helpMarkDown": "[More Information](https://github.com/geeklearningio/gl-vsts-tasks-file-patch/wiki/Patch-JSON-Files) (Version #{Version}#)",
+  "category": "Utility",
+  "visibility": ["Build", "Release"],
+  "author": "Geek Learning",
+  "version": {
+    "Major": 0,
+    "Minor": 0,
+    "Patch": 0
+  },
+  "demands": [],
+  "minimumAgentVersion": "2.117.0",
+  "instanceNameFormat": "Patch files $(JsonTargetFilters)",
+  "inputs": [
+    {
+      "name": "SyntaxType",
+      "type": "pickList",
+      "label": "Syntax type",
+      "defaultValue": "slick",
+      "required": true,
+      "helpMarkDown": "The syntax used for the patch content. See documentation for more information.",
+      "options": {
+        "standard": "Standard Syntax",
+        "slick": "Slick Syntax"
+      }
     },
-    "demands": [
-    ],
-    "minimumAgentVersion": "1.91.0",
-    "instanceNameFormat": "Patch files $(JsonTargetFilters)",
-    "inputs": [
-         {
-            "name": "SyntaxType",
-            "type": "pickList",
-            "label": "Syntax type",
-            "defaultValue": "slick",
-            "required": true,
-            "helpMarkDown": "The syntax used for the patch content. See documentation for more information.",
-            "options": {
-                "standard": "Standard Syntax",
-                "slick": "Slick Syntax"
-            }
-        },
-        {
-            "name": "JsonWorkingDir",
-            "type": "filePath",
-            "label": "Patch working directory",
-            "defaultValue": "",
-            "required": true,
-            "helpMarkDown": "Working directory. Example: $(Build.SourcesDirectory)"
-        },
-        {
-            "name": "JsonTargetFilters",
-            "type": "multiLine",
-            "label": "Target files",
-            "defaultValue": "",
-            "required": true,
-            "helpMarkDown": "Patch target file. Example: appsettings*.json"
-        },
-        {
-            "name": "JsonPatchContent",
-            "type": "multiLine",
-            "label": "Patch Content",
-            "defaultValue": "",
-            "required": true,
-            "helpMarkDown": "Patch content.",
-            "properties": {
-                "resizable": "true",
-                "rows" : "10",
-                "maxLength" : "5000"
-            }
-        },
-        {
-            "name": "OutputPatchFile",
-            "type": "boolean",
-            "label": "Output patched file in logs",
-            "defaultValue": "false",
-            "helpMarkDown": "Output patched file in logs"
-        },
-        {
-            "name": "UseJson5",
-            "type": "boolean",
-            "label": "Use JSON 5",
-            "defaultValue": "false",
-            "helpMarkDown": "This enables JSON5 syntax support"
-        },
-        {
-            "name": "ProduceJson5",
-            "type": "boolean",
-            "label": "Produce JSON 5",
-            "defaultValue": "false",
-            "helpMarkDown": "This enables JSON5 output support"
-        },
-        {
-            "name": "FailIfNoPatchApplied",
-            "type": "boolean",
-            "label": "Fail if no files are patched",
-            "defaultValue": "false",
-            "helpMarkDown": "Fail if no files are patched."
-        },
-        {
-            "name": "TreatErrors",
-            "type": "pickList",
-            "label": "Treat errors as",
-            "defaultValue": "ERROR",
-            "required": true,
-            "helpMarkDown": "Treat patch errors as errors, warnings, information, or nothing at all.",
-            "options": {
-                "ERROR": "errors",
-                "WARN": "warnings",
-                "INFO": "information",
-                "NOTHING": "nothing"
-            }
-        }
-    ],
-    "execution": {
-        "Node": {
-            "target": "jsonPatch.js",
-            "argumentFormat": ""
-        }
+    {
+      "name": "JsonWorkingDir",
+      "type": "filePath",
+      "label": "Patch working directory",
+      "defaultValue": "",
+      "required": true,
+      "helpMarkDown": "Working directory. Example: $(Build.SourcesDirectory)"
+    },
+    {
+      "name": "JsonTargetFilters",
+      "type": "multiLine",
+      "label": "Target files",
+      "defaultValue": "",
+      "required": true,
+      "helpMarkDown": "Patch target file. Example: appsettings*.json"
+    },
+    {
+      "name": "JsonPatchContent",
+      "type": "multiLine",
+      "label": "Patch Content",
+      "defaultValue": "",
+      "required": true,
+      "helpMarkDown": "Patch content.",
+      "properties": {
+        "resizable": "true",
+        "rows": "10",
+        "maxLength": "5000"
+      }
+    },
+    {
+      "name": "OutputPatchFile",
+      "type": "boolean",
+      "label": "Output patched file in logs",
+      "defaultValue": "false",
+      "helpMarkDown": "Output patched file in logs"
+    },
+    {
+      "name": "UseJson5",
+      "type": "boolean",
+      "label": "Use JSON 5",
+      "defaultValue": "false",
+      "helpMarkDown": "This enables JSON5 syntax support"
+    },
+    {
+      "name": "ProduceJson5",
+      "type": "boolean",
+      "label": "Produce JSON 5",
+      "defaultValue": "false",
+      "helpMarkDown": "This enables JSON5 output support"
+    },
+    {
+      "name": "FailIfNoPatchApplied",
+      "type": "boolean",
+      "label": "Fail if no files are patched",
+      "defaultValue": "false",
+      "helpMarkDown": "Fail if no files are patched."
+    },
+    {
+      "name": "TreatErrors",
+      "type": "pickList",
+      "label": "Treat errors as",
+      "defaultValue": "ERROR",
+      "required": true,
+      "helpMarkDown": "Treat patch errors as errors, warnings, information, or nothing at all.",
+      "options": {
+        "ERROR": "errors",
+        "WARN": "warnings",
+        "INFO": "information",
+        "NOTHING": "nothing"
+      }
     }
+  ],
+  "execution": {
+    "Node": {
+      "target": "jsonPatch.js",
+      "argumentFormat": ""
+    }
+  }
 }

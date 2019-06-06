@@ -1,99 +1,95 @@
 {
-    "id": "599b994d-c4e1-4e74-b58e-0cd3006e5aac",
-    "name": "PlistPatch",
-    "friendlyName": "Patch Plist Files",
-    "description": "Patch Plist files using JSON patch syntax",
-    "helpMarkDown": "[More Information](https://github.com/geeklearningio/gl-vsts-tasks-file-patch/wiki/Patch-Plist-Files) (Version #{Version}#)",
-    "category": "Utility",
-    "visibility": [
-        "Build",
-        "Release"
-    ],
-    "author": "Geek Learning",
-    "version": {
-        "Major": 0,
-        "Minor": 0,
-        "Patch": 0
+  "id": "599b994d-c4e1-4e74-b58e-0cd3006e5aac",
+  "name": "PlistPatch",
+  "friendlyName": "Patch Plist Files",
+  "description": "Patch Plist files using JSON patch syntax",
+  "helpMarkDown": "[More Information](https://github.com/geeklearningio/gl-vsts-tasks-file-patch/wiki/Patch-Plist-Files) (Version #{Version}#)",
+  "category": "Utility",
+  "visibility": ["Build", "Release"],
+  "author": "Geek Learning",
+  "version": {
+    "Major": 0,
+    "Minor": 0,
+    "Patch": 0
+  },
+  "demands": [],
+  "minimumAgentVersion": "2.117.0",
+  "instanceNameFormat": "Patch files $(PlistTargetFilters)",
+  "inputs": [
+    {
+      "name": "SyntaxType",
+      "type": "pickList",
+      "label": "Syntax type",
+      "defaultValue": "slick",
+      "required": true,
+      "helpMarkDown": "The syntax used for the patch content. See documentation for more information.",
+      "options": {
+        "standard": "Standard Syntax",
+        "slick": "Slick Syntax"
+      }
     },
-    "demands": [
-    ],
-    "minimumAgentVersion": "1.91.0",
-    "instanceNameFormat": "Patch files $(PlistTargetFilters)",
-    "inputs": [
-        {
-            "name": "SyntaxType",
-            "type": "pickList",
-            "label": "Syntax type",
-            "defaultValue": "slick",
-            "required": true,
-            "helpMarkDown": "The syntax used for the patch content. See documentation for more information.",
-            "options": {
-                "standard": "Standard Syntax",
-                "slick": "Slick Syntax"
-            }
-        },
-        {
-            "name": "PlistWorkingDir",
-            "type": "filePath",
-            "label": "Patch working directory",
-            "defaultValue": "",
-            "required": true,
-            "helpMarkDown": "Working directory. Example: $(Build.SourcesDirectory)"
-        },
-        {
-            "name": "PlistTargetFilters",
-            "type": "multiLine",
-            "label": "Target files",
-            "defaultValue": "",
-            "required": true,
-            "helpMarkDown": "Patch target file. Example: appsettings*.plist"
-        },
-        {
-            "name": "PlistPatchContent",
-            "type": "multiLine",
-            "label": "Patch Content",
-            "defaultValue": "",
-            "required": true,
-            "helpMarkDown": "Patch content.",
-            "properties": {
-                "resizable": "true",
-                "rows": "10",
-                "maxLength": "5000"
-            }
-        },
-        {
-            "name": "OutputPatchFile",
-            "type": "boolean",
-            "label": "Output patched file in logs",
-            "defaultValue": "false",
-            "helpMarkDown": "Output patched file in logs"
-        },
-        {
-            "name": "FailIfNoPatchApplied",
-            "type": "boolean",
-            "label": "Fail if no files are patched",
-            "defaultValue": "false",
-            "helpMarkDown": "Fail if no files are patched."
-        },
-        {
-            "name": "TreatErrors",
-            "type": "pickList",
-            "label": "Treat errors as",
-            "defaultValue": "ERROR",
-            "required": true,
-            "helpMarkDown": "Treat patch errors as errors, warnings, information, or nothing at all.",
-            "options": {
-                "ERROR": "errors",
-                "WARN": "warnings",
-                "INFO": "information",
-                "NOTHING": "nothing"
-            }
-        }
-    ],
-    "execution": {
-        "Node": {
-            "target": "plistPatch.js",
-            "argumentFormat": ""
-        }
+    {
+      "name": "PlistWorkingDir",
+      "type": "filePath",
+      "label": "Patch working directory",
+      "defaultValue": "",
+      "required": true,
+      "helpMarkDown": "Working directory. Example: $(Build.SourcesDirectory)"
+    },
+    {
+      "name": "PlistTargetFilters",
+      "type": "multiLine",
+      "label": "Target files",
+      "defaultValue": "",
+      "required": true,
+      "helpMarkDown": "Patch target file. Example: appsettings*.plist"
+    },
+    {
+      "name": "PlistPatchContent",
+      "type": "multiLine",
+      "label": "Patch Content",
+      "defaultValue": "",
+      "required": true,
+      "helpMarkDown": "Patch content.",
+      "properties": {
+        "resizable": "true",
+        "rows": "10",
+        "maxLength": "5000"
+      }
+    },
+    {
+      "name": "OutputPatchFile",
+      "type": "boolean",
+      "label": "Output patched file in logs",
+      "defaultValue": "false",
+      "helpMarkDown": "Output patched file in logs"
+    },
+    {
+      "name": "FailIfNoPatchApplied",
+      "type": "boolean",
+      "label": "Fail if no files are patched",
+      "defaultValue": "false",
+      "helpMarkDown": "Fail if no files are patched."
+    },
+    {
+      "name": "TreatErrors",
+      "type": "pickList",
+      "label": "Treat errors as",
+      "defaultValue": "ERROR",
+      "required": true,
+      "helpMarkDown": "Treat patch errors as errors, warnings, information, or nothing at all.",
+      "options": {
+        "ERROR": "errors",
+        "WARN": "warnings",
+        "INFO": "information",
+        "NOTHING": "nothing"
+      }
     }
+  ],
+  "execution": {
+    "Node": {
+      "target": "plistPatch.js",
+      "argumentFormat": ""
+    }
+  }
 }
