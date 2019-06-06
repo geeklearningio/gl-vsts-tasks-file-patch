@@ -1,6 +1,6 @@
 import path = require('path');
 import fs = require('fs-extra');
-import tl = require('vsts-task-lib/task');
+import tl = require('azure-pipelines-task-lib/task');
 
 import patchProcess = require('./common/patchProcess');
 import xmlPatcher = require('./xmlPatcher');

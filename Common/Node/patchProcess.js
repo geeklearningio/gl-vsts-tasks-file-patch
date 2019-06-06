@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var bom = require("./shared/bom");
+var bom = require("./bom");
 var patch = require("./patch");
-var matcher = require("./shared/multimatch");
-var tl = require("vsts-task-lib/task");
+var matcher = require("./multimatch");
+var tl = require("azure-pipelines-task-lib/task");
 var fs = require("fs");
 var slickPatchParser = new patch.SlickPatchParser();
 var varRegex = /\$\((.*?)\)/g;

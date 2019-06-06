@@ -25,6 +25,19 @@ describe("XML Patcher", () => {
             });
         });
 
+        describe("Add", () => {
+            it(": contains should work.", () => {
+                var patcher = new xmlatcher.XmlPatcher([
+                    {
+                        op: "replace", path: "/rootNode/childNode/leaf[contains(@color, 'aaa')]", value: "10"
+                    }
+                ], {});
+                var result = patcher.apply(source);
+
+                expect(result).toEqual('<rootNode><name>a name</name><childNode size="10"><leaf color="#aaaaaa">10</leaf><leaf color="#000000"/></childNode></rootNode>');
+            });
+        });
+
 
         describe("Replace", () => {
             it(": should support basic attribute replace.", () => {
@@ -153,7 +166,7 @@ describe("XML Patcher", () => {
             xit(": move at index", () => {
                      var patcher = new xmlatcher.XmlPatcher([
                     {
-                        op: "move", from: "/rootNode/0", path: "/rootNode/1", value: "otherleaf"
+                        op: "move", from: "/rootNode/0", path: "/rootNode/1"
                     }
                 ], {});
                 var result = patcher.apply(source);

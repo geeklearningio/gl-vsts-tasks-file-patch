@@ -1,5 +1,5 @@
 import patch = require('./patch');
-import tl = require('vsts-task-lib/task');
+import tl = require('azure-pipelines-task-lib/task');
 import jsonPatch = require('fast-json-patch');
 
 export class JsonPatcher implements patch.IPatcher {

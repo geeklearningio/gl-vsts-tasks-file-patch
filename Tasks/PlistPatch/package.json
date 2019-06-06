@@ -3,12 +3,12 @@
   "private": true,
   "version": "0.1.0",
   "dependencies": {
-    "fs-extra": "4.0.1",
-    "micromatch": "^2.3.0",
-    "fast-json-patch": "2.0.4",
-    "xregexp": "3.2.0",
-    "vsts-task-lib": "2.0.7",
-    "plist": "2.1.0",
-    "shelljs": "0.7.8"
+    "fs-extra": "8.0.1",
+    "micromatch": "^4.0.2",
+    "fast-json-patch": "2.1.0",
+    "xregexp": "4.2.4",
+    "azure-pipelines-task-lib": "2.8.0",
+    "plist": "3.0.1",
+    "shelljs": "0.8.3"
   }
 }

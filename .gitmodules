@@ -1,3 +1,0 @@
-[submodule "Common/Node/shared"]
-	path = Common/Node/shared
-	url = https://github.com/geeklearningio/gl-vsts-tasks-common-node

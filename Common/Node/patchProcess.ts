@@ -1,7 +1,7 @@
-import bom = require('./shared/bom')
+import bom = require('./bom')
 import patch = require('./patch');
-import matcher = require('./shared/multimatch');
-import tl = require('vsts-task-lib/task');
+import matcher = require('./multimatch');
+import tl = require('azure-pipelines-task-lib/task');
 import fs = require('fs');
 import * as sh from 'shelljs';
 import { Operation } from 'fast-json-patch';
