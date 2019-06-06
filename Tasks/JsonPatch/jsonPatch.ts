@@ -38,7 +38,5 @@ try {
     treatErrors
   );
 } catch (err) {
-  console.error(String(err));
-  console.error((err as Error).stack);
-  tl.setResult(tl.TaskResult.Failed, String(err));
+  tl.setResult(tl.TaskResult.Failed, err.toString());
 }
