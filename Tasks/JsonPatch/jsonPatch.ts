@@ -9,7 +9,7 @@ try {
   var targetPath = tl.getPathInput('JsonWorkingDir', true);
   var patchContent = tl.getInput('JsonPatchContent', true);
 
-  var patterns: any = tl.getInput('JsonTargetFilters', true);
+  var patterns: string = tl.getInput('JsonTargetFilters', true);
   var outputPatchedFile = tl.getBoolInput('OutputPatchFile', true);
   var failIfNoPatchApplied = tl.getBoolInput('FailIfNoPatchApplied', true);
   var treatErrors = tl.getInput('TreatErrors', true);
