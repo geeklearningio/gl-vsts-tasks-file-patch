@@ -57,7 +57,7 @@
     "modclean": "2.1.0",
     "npm-run-all": "4.1.5",
     "prettier": "^1.17.1",
-    "typescript": "3.5.1",
+    "typescript": "3.5.2",
     "jasmine-reporters": "2.3.2",
     "jasmine": "3.4.0"
   }

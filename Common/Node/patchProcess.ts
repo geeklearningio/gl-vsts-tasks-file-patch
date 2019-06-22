@@ -9,7 +9,7 @@ import { Operation } from 'fast-json-patch';
 var slickPatchParser = new patch.SlickPatchParser();
 var varRegex = /\$\((.*?)\)/g;
 
-function expandVariable(str: string) {
+function expandVariable(str: string): string {
   return str.replace(varRegex, (match, varName, offset, string) =>
     tl.getVariable(varName)
   );
@@ -32,14 +32,14 @@ export function apply(
   outputPatchedFile: boolean,
   failIfNoPatchApplied: boolean,
   treatErrors: string
-) {
+): void {
   var files = matcher.getMatches(workingDirectory, filters);
 
   for (var index = 0; index < patcher.patches.length; index++) {
     var patch = patcher.patches[index];
     if (
       (patch.path && patch.path[0] != '/') ||
-      ((<any>patch).from && (<any>patch).from[0] != '/')
+      ((patch as any).from && (patch as any).from[0] != '/')
     ) {
       throw new Error(
         'All path must start with a leading slash. Please verify patch at index ' +
