@@ -5,18 +5,18 @@ import jsonPatcher = require('./common/jsonPatcher');
 import json5Patcher = require('./json5Patcher');
 import { Operation } from 'fast-json-patch';
 
-var targetPath = tl.getPathInput('JsonWorkingDir', true);
-var patchContent = tl.getInput('JsonPatchContent', true);
-
-var patterns: any = tl.getInput('JsonTargetFilters', true);
-var outputPatchedFile = tl.getBoolInput('OutputPatchFile', true);
-var failIfNoPatchApplied = tl.getBoolInput('FailIfNoPatchApplied', true);
-var treatErrors = tl.getInput('TreatErrors', true);
-var syntax = tl.getInput('SyntaxType', true);
-var useJson5 = tl.getBoolInput('UseJson5', true);
-var produceJson5 = tl.getBoolInput('ProduceJson5', true);
-
 try {
+  var targetPath = tl.getPathInput('JsonWorkingDir', true);
+  var patchContent = tl.getInput('JsonPatchContent', true);
+
+  var patterns: any = tl.getInput('JsonTargetFilters', true);
+  var outputPatchedFile = tl.getBoolInput('OutputPatchFile', true);
+  var failIfNoPatchApplied = tl.getBoolInput('FailIfNoPatchApplied', true);
+  var treatErrors = tl.getInput('TreatErrors', true);
+  var syntax = tl.getInput('SyntaxType', true);
+  var useJson5 = tl.getBoolInput('UseJson5', true);
+  var produceJson5 = tl.getBoolInput('ProduceJson5', true);
+
   var patches: Operation[] =
     syntax == 'slick'
       ? patchProcess.expandVariablesAndParseSlickPatch(patchContent)
