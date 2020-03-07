@@ -1496,10 +1496,10 @@ get-value@^2.0.3, get-value@^2.0.6:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/get-value/-/get-value-2.0.6.tgz#dc15ca1c672387ca76bd37ac0a395ba2042a2c28"
 
-gl-vsts-tasks-build-scripts@^0.6.0-alpha.9:
-  version "0.6.0-alpha.9"
-  resolved "https://registry.yarnpkg.com/gl-vsts-tasks-build-scripts/-/gl-vsts-tasks-build-scripts-0.6.0-alpha.9.tgz#9cafec2d72bd4bab7c2017da27096be43a578f38"
-  integrity sha512-Vj5ioDIExGky3BHtsgepoPGR/ixTZsH/D5gIZPtT1zHCkMxQAdyiaCQdoyeBiRrjr2P82WirgIgmmC4EIcU8iw==
+gl-vsts-tasks-build-scripts@^0.6.0-alpha.10:
+  version "0.6.0-alpha.10"
+  resolved "https://registry.yarnpkg.com/gl-vsts-tasks-build-scripts/-/gl-vsts-tasks-build-scripts-0.6.0-alpha.10.tgz#77b49f25863b98a9c5e2b263eeadd51804aac886"
+  integrity sha512-CZ1+fBW/mANB9PWSfTFluQHLS0yrmBSZuu5k6QnEIMrKazvCxOrFeQ5w3pwfyOC7QJ8Go1/u4hY2xw8Fq+uETQ==
   dependencies:
     async "^3.2.0"
     fs-extra "8.1.0"
