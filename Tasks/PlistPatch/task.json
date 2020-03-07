@@ -87,7 +87,7 @@
     }
   ],
   "execution": {
-    "Node": {
+    "Node10": {
       "target": "plistPatch.js",
       "argumentFormat": ""
     }

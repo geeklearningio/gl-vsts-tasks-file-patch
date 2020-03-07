@@ -101,7 +101,7 @@
     }
   ],
   "execution": {
-    "Node": {
+    "Node10": {
       "target": "jsonPatch.js",
       "argumentFormat": ""
     }

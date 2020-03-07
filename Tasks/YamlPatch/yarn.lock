@@ -15,9 +15,10 @@ argparse@^1.0.7:
   dependencies:
     sprintf-js "~1.0.2"
 
-azure-pipelines-task-lib@2.8.0:
-  version "2.8.0"
-  resolved "https://registry.yarnpkg.com/azure-pipelines-task-lib/-/azure-pipelines-task-lib-2.8.0.tgz#8a0117a98f86c2e9ee85333e649874bf83ccb836"
+azure-pipelines-task-lib@^2.9.3:
+  version "2.9.3"
+  resolved "https://registry.yarnpkg.com/azure-pipelines-task-lib/-/azure-pipelines-task-lib-2.9.3.tgz#7f62a1de99bace97b840b7ffe54e7712cfc2ba84"
+  integrity sha512-SPWKSfgmjyBDVIMzXnnPH0Gv7YXZ+AQ3SyIhNNALAmQpOltqJhgslvzrOClR5rKuoOyJlG0AWZILbZIXCkztAA==
   dependencies:
     minimatch "3.0.4"
     mockery "^1.7.0"
