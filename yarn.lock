@@ -1520,9 +1520,10 @@ get-value@^2.0.3, get-value@^2.0.6:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/get-value/-/get-value-2.0.6.tgz#dc15ca1c672387ca76bd37ac0a395ba2042a2c28"
 
-gl-vsts-tasks-build-scripts@^0.6.0-alpha.4:
-  version "0.6.0-alpha.4"
-  resolved "https://registry.yarnpkg.com/gl-vsts-tasks-build-scripts/-/gl-vsts-tasks-build-scripts-0.6.0-alpha.4.tgz#cf625dbd6546c049e4586b065d9312c9b0f5decf"
+gl-vsts-tasks-build-scripts@^0.6.0-alpha.5:
+  version "0.6.0-alpha.5"
+  resolved "https://registry.yarnpkg.com/gl-vsts-tasks-build-scripts/-/gl-vsts-tasks-build-scripts-0.6.0-alpha.5.tgz#a473b706311a87b924372d43862815cd3b07e3e3"
+  integrity sha512-MlowUEXWJqxP/dbcVLP4ogTA2C2yFu7EmGrbiZQh8TBUAa1wFlTvdKcszFIvhMbTaMVarP89OvW1wFFaqsNcUg==
   dependencies:
     "@types/async" "^3.0.0"
     "@types/fs-extra" "^7.0.0"
