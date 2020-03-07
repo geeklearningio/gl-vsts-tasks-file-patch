@@ -100,7 +100,7 @@
     }
   ],
   "execution": {
-    "Node": {
+    "Node10": {
       "target": "xmlPatch.js",
       "argumentFormat": ""
     }
