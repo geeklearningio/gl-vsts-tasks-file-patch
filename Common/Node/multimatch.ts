@@ -7,18 +7,11 @@ export function applyMatch(
   filters: string,
   files: string[]
 ): string[] {
-  var patterns = filters.split('\n').map(pattern => {
-    if (pattern.match(/^!/)) {
-      return '!' + path.join(directory, pattern.substr(1));
-    }
-    return path.join(directory, pattern);
-  });
+  var patterns = filters.split('\n');
 
-  var allFiles = files.map(file => path.resolve(file));
-  var filteredFiles = (micromatch as any)(allFiles, patterns, {
-    nodupes: true
-  });
-  return filteredFiles;
+  var allFiles = files.map(file => path.relative(directory, file));
+  var filteredFiles = micromatch(allFiles, patterns, {});
+  return filteredFiles.map(file => path.join(directory, file));
 }
 
 export function getMatches(directory: string, filters: string): string[] {

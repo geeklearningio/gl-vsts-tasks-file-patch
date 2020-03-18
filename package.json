@@ -41,7 +41,7 @@
     "@types/jasmine": "^2.5.53",
     "@types/js-yaml": "^3.9.0",
     "@types/json5": "0.0.29",
-    "@types/micromatch": "^3.1.0",
+    "@types/micromatch": "^4.0.1",
     "@types/node": "8.0.19",
     "@types/parse-glob": "^3.0.29",
     "@types/q": "^1.0.3",
