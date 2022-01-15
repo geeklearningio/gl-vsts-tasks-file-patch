@@ -10,6 +10,6 @@
     "xregexp": "4.2.4",
     "azure-pipelines-task-lib": "^2.9.3",
     "json5": "2.1.0",
-    "shelljs": "0.8.3"
+    "shelljs": "0.8.5"
   }
 }
