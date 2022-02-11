@@ -53,7 +53,7 @@
     "async": "3.0.1",
     "eslint": "^5.16.0",
     "gl-vsts-tasks-build-scripts": "^0.6.0-alpha.10",
-    "karma": "^1.1.2",
+    "karma": "^6.3.14",
     "modclean": "2.1.0",
     "npm-run-all": "4.1.5",
     "prettier": "^1.17.1",
