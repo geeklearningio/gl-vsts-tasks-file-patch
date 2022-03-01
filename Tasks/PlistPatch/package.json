@@ -9,7 +9,7 @@
     "fast-json-patch": "2.1.0",
     "xregexp": "4.2.4",
     "azure-pipelines-task-lib": "^2.9.3",
-    "plist": "3.0.1",
+    "plist": "3.0.4",
     "shelljs": "0.8.3"
   }
 }
