@@ -45,7 +45,7 @@ describe('JSON Patcher', () => {
 
       var patcher = new jsonPatcher.JsonPatcher([
         {
-          op: 'add',
+          op: 'replace',
           path: '/~1foo',
           value: '12'
         },
