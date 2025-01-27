@@ -103,6 +103,10 @@
     "Node10": {
       "target": "xmlPatch.js",
       "argumentFormat": ""
+    },
+    "Node20_1": {
+      "target": "xmlPatch.js",
+      "argumentFormat": ""
     }
   }
 }
