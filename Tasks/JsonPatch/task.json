@@ -104,6 +104,10 @@
     "Node10": {
       "target": "jsonPatch.js",
       "argumentFormat": ""
+    },
+    "Node20_1": {
+      "target": "jsonPatch.js",
+      "argumentFormat": ""
     }
   }
 }

@@ -90,6 +90,10 @@
     "Node10": {
       "target": "plistPatch.js",
       "argumentFormat": ""
+    },
+    "Node20_1": {
+      "target": "plistPatch.js",
+      "argumentFormat": ""
     }
   }
 }

@@ -90,6 +90,10 @@
     "Node10": {
       "target": "yamlPatch.js",
       "argumentFormat": ""
+    },
+    "Node20_1": {
+      "target": "yamlPatch.js",
+      "argumentFormat": ""
     }
   }
 }
